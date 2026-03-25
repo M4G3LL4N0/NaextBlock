@@ -54,24 +54,55 @@ export default async function NeighborhoodPage({
           </div>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <ScoreBadge label="Momentum" value={neighborhood.momentum_score} />
-          <ScoreBadge label="Seller intent" value={neighborhood.seller_intent_score} />
-          <ScoreBadge label="Appreciation" value={neighborhood.appreciation_score} />
-          <ScoreBadge
-            label="Amenity growth"
-            value={neighborhood.amenity_growth_score}
-          />
-          <ScoreBadge label="Turnover risk" value={neighborhood.turnover_risk_score} />
-          <ScoreBadge
-            label="Generational hold"
-            value={neighborhood.generational_hold_score}
-          />
-          <ScoreBadge
-            label="Investor opportunity"
-            value={neighborhood.investor_opportunity_score}
-          />
-          <ScoreBadge label="Buyer timing" value={neighborhood.buyer_timing_score} />
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          {/* Demand Signals */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-4 text-sm font-medium uppercase tracking-wider text-white/60">Demand Signals</h3>
+            <div className="grid gap-4">
+              <ScoreBadge label="Momentum" value={neighborhood.momentum_score} />
+              <ScoreBadge label="Amenity Growth" value={neighborhood.amenity_growth_score} />
+              <ScoreBadge label="Buyer Timing" value={neighborhood.buyer_timing_score} />
+            </div>
+          </div>
+
+          {/* Supply Dynamics */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-4 text-sm font-medium uppercase tracking-wider text-white/60">Supply Dynamics</h3>
+            <div className="grid gap-4">
+              <ScoreBadge label="Seller Intent" value={neighborhood.seller_intent_score} />
+              <ScoreBadge label="Generational Hold" value={neighborhood.generational_hold_score} />
+              <ScoreBadge label="Turnover Risk" value={neighborhood.turnover_risk_score} />
+            </div>
+          </div>
+
+          {/* Investment Profile */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-4 text-sm font-medium uppercase tracking-wider text-white/60">Investment Profile</h3>
+            <div className="grid gap-4">
+              <ScoreBadge label="Appreciation" value={neighborhood.appreciation_score} />
+              <ScoreBadge label="Investor Opportunity" value={neighborhood.investor_opportunity_score} />
+              
+              {/* Strategic Summary Box */}
+              <div className="mt-2 rounded-lg border border-white/10 p-4">
+                <p className="text-sm font-medium text-white/80">Strategic Pulse</p>
+                <p className="mt-1 text-xs text-white/50">
+                  {neighborhood.status === 'rising' 
+                    ? 'Strong momentum with favorable demand/supply dynamics.'
+                    : neighborhood.status === 'stable'
+                    ? 'Steady fundamentals with balanced risks.'
+                    : 'Caution advised - monitor supply and pricing trends.'}
+                </p>
+                
+                <p className="mt-3 text-sm font-medium text-white/80">Best For</p>
+                <ul className="mt-1 list-disc space-y-1 pl-4 text-xs text-white/50">
+                  {neighborhood.investor_opportunity_score > 70 && <li>Yield-seeking investors</li>}
+                  {neighborhood.generational_hold_score > 60 && <li>Long-term holders</li>}
+                  {neighborhood.turnover_risk_score > 65 && <li>Turnaround operators</li>}
+                  {neighborhood.amenity_growth_score > 75 && <li>Location arbitrage</li>}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
