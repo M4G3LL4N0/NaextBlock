@@ -26,16 +26,23 @@ export function ScoreBadge({
             {numericValue >= 80 ? "accelerating" : numericValue >= 50 ? "stable" : "warning"}
           </span>
         </div>
-        <div className="h-1 w-full overflow-hidden rounded-full bg-white/5">
+        <div className="relative h-1 w-full overflow-hidden rounded-full bg-white/5">
           <div
             className={clsx(
-              "h-1",
+              "absolute h-1 transition-all duration-500",
               numericValue >= 80 && "bg-gradient-to-r from-emerald-400 to-emerald-500",
               numericValue >= 50 && numericValue < 80 && "bg-gradient-to-r from-amber-400 to-amber-500",
               numericValue < 50 && "bg-gradient-to-r from-sky-400 to-sky-500",
             )}
             style={{ width: `${numericValue}%` }}
           />
+        </div>
+        <div className="mt-1 text-xs text-white/40">
+          {numericValue >= 80
+            ? "Strong positive signal"
+            : numericValue >= 50
+            ? "Moderate signal"
+            : "Caution advised"}
         </div>
       </div>
     </div>

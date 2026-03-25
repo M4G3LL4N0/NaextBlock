@@ -54,14 +54,14 @@ export default async function NeighborhoodPage({
           </div>
         </div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {/* Demand Signals */}
+        <div className="mt-10 grid gap-6 lg:grid-cols-4">
+          {/* Market Fundamentals */}
           <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="mb-4 text-sm font-medium uppercase tracking-wider text-white/60">Demand Signals</h3>
+            <h3 className="mb-4 text-sm font-medium uppercase tracking-wider text-white/60">Market Fundamentals</h3>
             <div className="grid gap-4">
               <ScoreBadge label="Momentum" value={neighborhood.momentum_score} />
+              <ScoreBadge label="Appreciation" value={neighborhood.appreciation_score} />
               <ScoreBadge label="Amenity Growth" value={neighborhood.amenity_growth_score} />
-              <ScoreBadge label="Buyer Timing" value={neighborhood.buyer_timing_score} />
             </div>
           </div>
 
@@ -79,11 +79,9 @@ export default async function NeighborhoodPage({
           <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <h3 className="mb-4 text-sm font-medium uppercase tracking-wider text-white/60">Investment Profile</h3>
             <div className="grid gap-4">
-              <ScoreBadge label="Appreciation" value={neighborhood.appreciation_score} />
               <ScoreBadge label="Investor Opportunity" value={neighborhood.investor_opportunity_score} />
-              
-              {/* Strategic Summary Box */}
-              <div className="mt-2 rounded-lg border border-white/10 p-4">
+              <ScoreBadge label="Buyer Timing" value={neighborhood.buyer_timing_score} />
+              <div className="rounded-lg border border-white/10 p-4">
                 <p className="text-sm font-medium text-white/80">Strategic Pulse</p>
                 <p className="mt-1 text-xs text-white/50">
                   {neighborhood.status === 'rising' 
@@ -92,13 +90,29 @@ export default async function NeighborhoodPage({
                     ? 'Steady fundamentals with balanced risks.'
                     : 'Caution advised - monitor supply and pricing trends.'}
                 </p>
-                
-                <p className="mt-3 text-sm font-medium text-white/80">Best For</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Operator Signals */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-4 text-sm font-medium uppercase tracking-wider text-white/60">Operator Signals</h3>
+            <div className="grid gap-4">
+              <div className="rounded-lg border border-white/10 p-4">
+                <p className="text-sm font-medium text-white/80">Best For</p>
                 <ul className="mt-1 list-disc space-y-1 pl-4 text-xs text-white/50">
                   {neighborhood.investor_opportunity_score > 70 && <li>Yield-seeking investors</li>}
                   {neighborhood.generational_hold_score > 60 && <li>Long-term holders</li>}
                   {neighborhood.turnover_risk_score > 65 && <li>Turnaround operators</li>}
                   {neighborhood.amenity_growth_score > 75 && <li>Location arbitrage</li>}
+                </ul>
+              </div>
+              <div className="rounded-lg border border-white/10 p-4">
+                <p className="text-sm font-medium text-white/80">Key Insights</p>
+                <ul className="mt-1 list-disc space-y-1 pl-4 text-xs text-white/50">
+                  {neighborhood.momentum_score > 75 && <li>Strong demand momentum</li>}
+                  {neighborhood.seller_intent_score > 65 && <li>Potential inventory growth</li>}
+                  {neighborhood.turnover_risk_score > 60 && <li>Watch for supply timing</li>}
                 </ul>
               </div>
             </div>
