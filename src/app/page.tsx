@@ -89,16 +89,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="flex items-end justify-between gap-6">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-              Featured neighborhoods
+              Market momentum
             </p>
             <h2 className="mt-3 text-3xl font-semibold">Top signals right now</h2>
           </div>
           <Link href="/map" className="text-sm text-white/65 hover:text-white">
-            Open full map →
+            Explore full market →
           </Link>
         </div>
 
@@ -106,6 +106,29 @@ export default async function HomePage() {
           {featured.map((neighborhood) => (
             <NeighborhoodCard key={neighborhood.slug} neighborhood={neighborhood} />
           ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-white/45">
+              Investor opportunities
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold">Top neighborhoods to watch</h2>
+          </div>
+          <Link href="/map" className="text-sm text-white/65 hover:text-white">
+            View all opportunities →
+          </Link>
+        </div>
+
+        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          {neighborhoods
+            .sort((a, b) => b.investor_opportunity_score - a.investor_opportunity_score)
+            .slice(0, 3)
+            .map((neighborhood) => (
+              <NeighborhoodCard key={neighborhood.slug} neighborhood={neighborhood} />
+            ))}
         </div>
       </section>
     </main>

@@ -21,8 +21,25 @@ function MapLegend() {
   );
 }
 
-export default async function MapPage() {
-  const neighborhoods = await getNeighborhoods();
+export default async function MapPage({
+  searchParams,
+}: {
+  searchParams: { status?: string; min_momentum?: string };
+}) {
+  let neighborhoods = await getNeighborhoods();
+  
+  // Apply filters
+  if (searchParams.status) {
+    neighborhoods = neighborhoods.filter(
+      (n) => n.status === searchParams.status
+    );
+  }
+  if (searchParams.min_momentum) {
+    const minScore = parseInt(searchParams.min_momentum);
+    neighborhoods = neighborhoods.filter(
+      (n) => n.momentum_score >= minScore
+    );
+  }
 
   return (
     <main>
@@ -47,7 +64,39 @@ export default async function MapPage() {
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
           <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <div className="grid h-[520px] grid-cols-3 gap-4">
+            <div className="mb-6 flex flex-wrap gap-4">
+              <Link
+                href="/map"
+                className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60 hover:bg-white/5"
+              >
+                All neighborhoods
+              </Link>
+              <Link
+                href="/map?status=rising"
+                className="rounded-full border border-emerald-400/20 px-4 py-2 text-sm text-emerald-300 hover:bg-emerald-500/10"
+              >
+                Rising
+              </Link>
+              <Link
+                href="/map?status=stable"
+                className="rounded-full border border-amber-400/20 px-4 py-2 text-sm text-amber-300 hover:bg-amber-500/10"
+              >
+                Stable
+              </Link>
+              <Link
+                href="/map?status=declining"
+                className="rounded-full border border-sky-400/20 px-4 py-2 text-sm text-sky-300 hover:bg-sky-500/10"
+              >
+                Declining
+              </Link>
+              <Link
+                href="/map?min_momentum=80"
+                className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60 hover:bg-white/5"
+              >
+                Momentum ≥ 80
+              </Link>
+            </div>
+            <div className="grid h-[520px] grid-cols-3 gap-4 overflow-y-auto">
               {neighborhoods.map((n) => (
                 <div
                   key={n.slug}

@@ -116,7 +116,7 @@ const fallbackNeighborhoods: Neighborhood[] = [
 
 export async function getNeighborhoods(): Promise<Neighborhood[]> {
   const { data, error } = await supabase
-    .from("neighborhoods")
+    .from("naextblock.neighborhoods")
     .select("*")
     .order("momentum_score", { ascending: false });
 
@@ -131,7 +131,7 @@ export async function getNeighborhoodBySlug(
   slug: string,
 ): Promise<Neighborhood | null> {
   const { data, error } = await supabase
-    .from("neighborhoods")
+    .from("naextblock.neighborhoods")
     .select("*")
     .eq("slug", slug)
     .single();
