@@ -1,6 +1,9 @@
 import { supabase } from "@/lib/supabase/client";
 import type { Neighborhood } from "@/lib/types";
 
+const FALLBACK_TIMEOUT = 2000; // 2 seconds
+const DEFAULT_LIMIT = 50;
+
 const fallbackNeighborhoods: Neighborhood[] = [
   {
     id: "1",
@@ -115,30 +118,49 @@ const fallbackNeighborhoods: Neighborhood[] = [
 ];
 
 export async function getNeighborhoods(): Promise<Neighborhood[]> {
-  const { data, error } = await supabase
-    .from("naextblock.neighborhoods")
-    .select("*")
-    .order("momentum_score", { ascending: false });
+  try {
+    const { data, error } = await Promise.race([
+      supabase
+        .from("neighborhoods")
+        .select("*")
+        .order("momentum_score", { ascending: false })
+        .limit(DEFAULT_LIMIT),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Timeout")), FALLBACK_TIMEOUT),
+      ),
+    ]);
 
-  if (error || !data || data.length === 0) {
+    if (error || !data || data.length === 0) {
+      return fallbackNeighborhoods;
+    }
+
+    return data as Neighborhood[];
+  } catch (error) {
     return fallbackNeighborhoods;
   }
-
-  return data as Neighborhood[];
 }
 
 export async function getNeighborhoodBySlug(
   slug: string,
 ): Promise<Neighborhood | null> {
-  const { data, error } = await supabase
-    .from("naextblock.neighborhoods")
-    .select("*")
-    .eq("slug", slug)
-    .single();
+  try {
+    const { data, error } = await Promise.race([
+      supabase
+        .from("neighborhoods")
+        .select("*")
+        .eq("slug", slug)
+        .single(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Timeout")), FALLBACK_TIMEOUT),
+      ),
+    ]);
 
-  if (error || !data) {
+    if (error || !data) {
+      return fallbackNeighborhoods.find((item) => item.slug === slug) || null;
+    }
+
+    return data as Neighborhood;
+  } catch (error) {
     return fallbackNeighborhoods.find((item) => item.slug === slug) || null;
   }
-
-  return data as Neighborhood;
 }
