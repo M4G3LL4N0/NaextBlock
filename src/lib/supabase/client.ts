@@ -9,3 +9,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: false,
   },
 });
+
+export type SupabaseResult<T = unknown> = {
+  data: T | null;
+  error: Error | null;
+};

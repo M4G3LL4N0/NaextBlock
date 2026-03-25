@@ -14,22 +14,28 @@ export async function POST(request: Request) {
     const json = await request.json();
     const parsed = WaitlistSchema.parse(json) as WaitlistSignupInput;
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("waitlist_signups")
       .insert({
         email: parsed.email,
         full_name: parsed.full_name || null,
         city: parsed.city || null,
-      })
-      .select()
-      .single();
+      });
 
     if (error) {
-      if (error.code === "23505") { // Unique violation
-        return NextResponse.json(
-          { error: "That email is already on the waitlist." },
-          { status: 409 },
-        );
+      if (error.code === "23505") {
+        const { data: existing } = await supabase
+          .from("waitlist_signups")
+          .select("email")
+          .eq("email", parsed.email)
+          .maybeSingle();
+
+        if (existing) {
+          return NextResponse.json(
+            { error: "That email is already on the waitlist." },
+            { status: 409 },
+          );
+        }
       }
       return NextResponse.json(
         { error: "Failed to add to waitlist. Please try again." },

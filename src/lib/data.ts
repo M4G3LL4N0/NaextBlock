@@ -121,7 +121,7 @@ export async function getNeighborhoods(): Promise<Neighborhood[]> {
   try {
     const { data, error } = await Promise.race([
       supabase
-        .from("naextblock.neighborhoods")
+        .from("neighborhoods")
         .select("*")
         .order("momentum_score", { ascending: false })
         .limit(DEFAULT_LIMIT),
