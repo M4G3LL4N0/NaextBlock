@@ -62,39 +62,64 @@ export default async function MapPage({
           <MapLegend />
         </div>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
+        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_2fr]">
           <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <div className="mb-6 flex flex-wrap gap-4">
+            <p className="text-xs uppercase tracking-[0.24em] text-white/45">
+              Filter Neighborhoods
+            </p>
+            <div className="mt-4 mb-6 flex flex-wrap gap-4">
               <Link
                 href="/map"
-                className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60 hover:bg-white/5"
+                className={`rounded-full px-4 py-2 text-sm ${
+                  !searchParams.status && !searchParams.min_momentum
+                    ? "bg-white/10 text-white"
+                    : "border border-white/10 text-white/60 hover:bg-white/5"
+                }`}
               >
-                All neighborhoods
+                All
               </Link>
               <Link
                 href="/map?status=rising"
-                className="rounded-full border border-emerald-400/20 px-4 py-2 text-sm text-emerald-300 hover:bg-emerald-500/10"
+                className={`rounded-full px-4 py-2 text-sm ${
+                  searchParams.status === "rising"
+                    ? "bg-emerald-500/10 text-emerald-300 border-emerald-400/20"
+                    : "border border-white/10 text-white/60 hover:bg-white/5"
+                }`}
               >
                 Rising
               </Link>
               <Link
                 href="/map?status=stable"
-                className="rounded-full border border-amber-400/20 px-4 py-2 text-sm text-amber-300 hover:bg-amber-500/10"
+                className={`rounded-full px-4 py-2 text-sm ${
+                  searchParams.status === "stable"
+                    ? "bg-amber-500/10 text-amber-300 border-amber-400/20"
+                    : "border border-white/10 text-white/60 hover:bg-white/5"
+                }`}
               >
                 Stable
               </Link>
               <Link
                 href="/map?status=declining"
-                className="rounded-full border border-sky-400/20 px-4 py-2 text-sm text-sky-300 hover:bg-sky-500/10"
+                className={`rounded-full px-4 py-2 text-sm ${
+                  searchParams.status === "declining"
+                    ? "bg-sky-500/10 text-sky-300 border-sky-400/20"
+                    : "border border-white/10 text-white/60 hover:bg-white/5"
+                }`}
               >
                 Declining
               </Link>
-              <Link
-                href="/map?min_momentum=80"
-                className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60 hover:bg-white/5"
-              >
-                Momentum ≥ 80
-              </Link>
+              <div className="relative">
+                <Link
+                  href={`/map?min_momentum=${searchParams.min_momentum || "70"}`}
+                  className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm ${
+                    searchParams.min_momentum
+                      ? "bg-purple-500/10 text-purple-300 border-purple-400/20"
+                      : "border border-white/10 text-white/60 hover:bg-white/5"
+                  }`}
+                >
+                  Momentum {searchParams.min_momentum ? `≥ ${searchParams.min_momentum}` : "Threshold"}
+                </Link>
+              </div>
             </div>
             <div className="grid h-[520px] grid-cols-3 gap-4 overflow-y-auto">
               {neighborhoods.map((n) => (

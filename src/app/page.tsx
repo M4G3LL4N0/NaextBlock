@@ -93,42 +93,36 @@ export default async function HomePage() {
         <div className="flex items-end justify-between gap-6">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-              Market momentum
+              Premium Insights
             </p>
-            <h2 className="mt-3 text-3xl font-semibold">Top signals right now</h2>
+            <h2 className="mt-3 text-3xl font-semibold">Market Momentum</h2>
           </div>
           <Link href="/map" className="text-sm text-white/65 hover:text-white">
-            Explore full market →
+            Explore Full Analytics →
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {featured.map((neighborhood) => (
-            <NeighborhoodCard key={neighborhood.slug} neighborhood={neighborhood} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="flex items-end justify-between gap-6">
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-              Investor opportunities
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold">Top neighborhoods to watch</h2>
+            <h3 className="mb-4 text-lg font-medium text-white/80">Top Momentum Signals</h3>
+            <div className="grid gap-5">
+              {featured.map((neighborhood) => (
+                <NeighborhoodCard key={neighborhood.slug} neighborhood={neighborhood} />
+              ))}
+            </div>
           </div>
-          <Link href="/map" className="text-sm text-white/65 hover:text-white">
-            View all opportunities →
-          </Link>
-        </div>
-
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {neighborhoods
-            .sort((a, b) => b.investor_opportunity_score - a.investor_opportunity_score)
-            .slice(0, 3)
-            .map((neighborhood) => (
-              <NeighborhoodCard key={neighborhood.slug} neighborhood={neighborhood} />
-            ))}
+          
+          <div>
+            <h3 className="mb-4 text-lg font-medium text-white/80">Prime Investor Opportunities</h3>
+            <div className="grid gap-5">
+              {neighborhoods
+                .sort((a, b) => b.investor_opportunity_score - a.investor_opportunity_score)
+                .slice(0, 3)
+                .map((neighborhood) => (
+                  <NeighborhoodCard key={neighborhood.slug} neighborhood={neighborhood} />
+                ))}
+            </div>
+          </div>
         </div>
       </section>
     </main>
