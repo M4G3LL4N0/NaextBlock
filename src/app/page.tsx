@@ -13,6 +13,50 @@ export default async function HomePage() {
     <main>
       <Header />
 
+      <section className="border-b border-white/10 bg-gradient-to-br from-black/80 to-black/50">
+        <div className="mx-auto max-w-7xl px-6 py-12">
+          <div className="mb-8">
+            <p className="text-xs uppercase tracking-[0.24em] text-white/45">
+              Top Opportunities Right Now
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold">
+              Where Smart Money Is Moving Next
+            </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+              Highest-scoring neighborhoods based on investor metrics including price momentum, 
+              seller intent, and projected growth.
+            </p>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-5">
+            {neighborhoods
+              .sort((a, b) => b.investor_opportunity_score - a.investor_opportunity_score)
+              .slice(0, 5)
+              .map((neighborhood) => (
+                <div key={neighborhood.slug} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-lg font-medium">{neighborhood.name}</h3>
+                    <span className="inline-flex items-center rounded-full bg-emerald-500/15 px-2 py-1 text-xs font-medium text-emerald-300">
+                      {neighborhood.investor_opportunity_score}/100
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-white/60">{neighborhood.short_description}</p>
+                  <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <p className="text-white/40">Growth</p>
+                      <p className="font-medium">{neighborhood.projected_growth_3y}%</p>
+                    </div>
+                    <div>
+                      <p className="text-white/40">Median Price</p>
+                      <p className="font-medium">{Math.round(neighborhood.median_home_price! / 1000)}K</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      </section>
+
       <section className="border-b border-white/10">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.25fr_0.75fr]">
           <div>
