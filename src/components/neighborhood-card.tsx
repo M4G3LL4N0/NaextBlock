@@ -21,9 +21,28 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
   return (
     <Link
       href={`/neighborhood/${neighborhood.slug}`}
-      className="group rounded-3xl border border-white/10 bg-white/5 p-5 transition hover:border-white/20 hover:bg-white/[0.08]"
+      className="group relative rounded-3xl border border-white/10 bg-white/5 p-5 transition hover:border-white/20 hover:bg-white/[0.08]"
     >
-      <div className="flex items-start justify-between gap-4">
+      <button 
+        className="absolute right-5 top-5 z-10 rounded-full bg-white/10 p-2 backdrop-blur transition hover:shadow-[0_0_0_3px_rgba(255,255,255,0.1)]"
+        title="Track neighborhood"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-[18px] w-[18px] text-white/80"
+        >
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+        </svg>
+      </button>
+      <div className="flex items-start justify-between gap-4 mt-1">
         <div>
           <p className="text-lg font-semibold text-white">{neighborhood.name}</p>
           <p className="mt-2 text-sm leading-6 text-white/60">

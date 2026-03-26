@@ -75,14 +75,36 @@ export default async function NeighborhoodPage({
             </p>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/5 px-5 py-4">
-            <p className="text-sm text-white/45">Median home price</p>
-            <p className="mt-2 text-3xl font-semibold text-white">
-              {formatMoney(neighborhood.median_home_price)}
-            </p>
-            <p className="mt-2 text-sm text-white/60">
-              Projected 3Y growth: {neighborhood.projected_growth_3y ?? 0}%
-            </p>
+          <div className="flex gap-4">
+            <div className="rounded-3xl border border-white/10 bg-white/5 px-5 py-4">
+              <p className="text-sm text-white/45">Median home price</p>
+              <p className="mt-2 text-3xl font-semibold text-white">
+                {formatMoney(neighborhood.median_home_price)}
+              </p>
+              <p className="mt-2 text-sm text-white/60">
+                Projected 3Y growth: {neighborhood.projected_growth_3y ?? 0}%
+              </p>
+            </div>
+            <button 
+              className="flex items-center gap-2 self-center rounded-full border border-emerald-400/30 bg-black/30 px-6 py-3 text-emerald-400 transition hover:border-emerald-400/50 hover:bg-emerald-400/10 hover:shadow-[0_0_0_3px_rgba(74,222,128,0.1)]"
+              title="Track neighborhood"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+              >
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+              </svg>
+              <span className="text-sm font-medium">Track</span>
+            </button>
           </div>
         </div>
 
