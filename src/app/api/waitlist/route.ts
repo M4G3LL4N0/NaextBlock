@@ -28,13 +28,11 @@ export async function POST(request: Request) {
       city: parsed.city || null,
     };
 
-    const { error } = await supabase
-      .from("waitlist_signups")
-      .insert([payload])
-      .select();
+    const table = (supabase.from("waitlist_signups") as any);
+    const { error } = await table.insert([payload]);
 
     if (error) {
-      const message = error.message.toLowerCase();
+      const message = String(error.message || "").toLowerCase();
 
       if (message.includes("duplicate") || message.includes("unique")) {
         return NextResponse.json(
@@ -43,7 +41,10 @@ export async function POST(request: Request) {
         );
       }
 
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json(
+        { error: error.message || "Failed to save waitlist signup." },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ ok: true });

@@ -1,14 +1,4 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-
-type Database = {
-  naextblock: {
-    waitlist_signups: {
-      email: string;
-      full_name: string | null;
-      city: string | null;
-    };
-  };
-};
+import { createClient } from "@supabase/supabase-js";
 
 function isValidHttpUrl(value: string | undefined): value is string {
   if (!value) return false;
@@ -23,13 +13,13 @@ function isValidHttpUrl(value: string | undefined): value is string {
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const schema = process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || "naextblock";
+const schema = "naextblock" as const;
 
-let cachedClient: SupabaseClient<Database> | null = null;
+let cachedClient: unknown = null;
 
-export function getSupabaseClient(): SupabaseClient<Database> | null {
+export function getSupabaseClient(): any | null {
   if (cachedClient) {
-    return cachedClient;
+    return cachedClient as any;
   }
 
   if (!isValidHttpUrl(supabaseUrl) || !supabaseAnonKey) {
@@ -38,9 +28,9 @@ export function getSupabaseClient(): SupabaseClient<Database> | null {
 
   cachedClient = createClient(supabaseUrl, supabaseAnonKey, {
     db: { schema },
-  });
+  }) as any;
 
-  return cachedClient;
+  return cachedClient as any;
 }
 
 export function hasValidSupabaseEnv(): boolean {

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Header } from "@/components/header";
 import { NeighborhoodCard } from "@/components/neighborhood-card";
 import { getNeighborhoods } from "@/lib/data";
@@ -24,22 +25,25 @@ function MapLegend() {
 export default async function MapPage({
   searchParams,
 }: {
-  searchParams: { status?: string; min_momentum?: string };
+  searchParams?: Promise<{
+    status?: string;
+    min_momentum?: string;
+  }>;
 }) {
-  let neighborhoods = await getNeighborhoods();
-  
-  // Apply filters
-  if (searchParams.status) {
-    neighborhoods = neighborhoods.filter(
-      (n) => n.status === searchParams.status
-    );
-  }
-  if (searchParams.min_momentum) {
-    const minScore = parseInt(searchParams.min_momentum);
-    neighborhoods = neighborhoods.filter(
-      (n) => n.momentum_score >= minScore
-    );
-  }
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const neighborhoods = await getNeighborhoods();
+
+  const statusFilter = resolvedSearchParams.status;
+  const minMomentum = Number(resolvedSearchParams.min_momentum ?? 0);
+
+  const filteredNeighborhoods = neighborhoods.filter((n) => {
+    const matchesStatus = statusFilter ? n.status === statusFilter : true;
+    const matchesMomentum = Number.isFinite(minMomentum)
+      ? n.momentum_score >= minMomentum
+      : true;
+
+    return matchesStatus && matchesMomentum;
+  });
 
   return (
     <main>
@@ -58,22 +62,14 @@ export default async function MapPage({
               Start with San Francisco. Rank neighborhoods by forward-looking
               momentum, investor opportunity, and buyer timing.
             </p>
-          </div>
-          <MapLegend />
-        </div>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_2fr]">
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-              Filter Neighborhoods
-            </p>
             <div className="mt-4 mb-6 flex flex-wrap gap-4">
               <Link
                 href="/map"
                 className={`rounded-full px-4 py-2 text-sm ${
-                  !searchParams.status && !searchParams.min_momentum
-                    ? "bg-white/10 text-white"
-                    : "border border-white/10 text-white/60 hover:bg-white/5"
+                  !resolvedSearchParams.status && !resolvedSearchParams.min_momentum
+                    ? "bg-white text-black"
+                    : "border border-white/15 bg-white/5 text-white/80"
                 }`}
               >
                 All
@@ -81,9 +77,9 @@ export default async function MapPage({
               <Link
                 href="/map?status=rising"
                 className={`rounded-full px-4 py-2 text-sm ${
-                  searchParams.status === "rising"
-                    ? "bg-emerald-500/10 text-emerald-300 border-emerald-400/20"
-                    : "border border-white/10 text-white/60 hover:bg-white/5"
+                  resolvedSearchParams.status === "rising"
+                    ? "bg-white text-black"
+                    : "border border-white/15 bg-white/5 text-white/80"
                 }`}
               >
                 Rising
@@ -91,9 +87,9 @@ export default async function MapPage({
               <Link
                 href="/map?status=stable"
                 className={`rounded-full px-4 py-2 text-sm ${
-                  searchParams.status === "stable"
-                    ? "bg-amber-500/10 text-amber-300 border-amber-400/20"
-                    : "border border-white/10 text-white/60 hover:bg-white/5"
+                  resolvedSearchParams.status === "stable"
+                    ? "bg-white text-black"
+                    : "border border-white/15 bg-white/5 text-white/80"
                 }`}
               >
                 Stable
@@ -101,28 +97,33 @@ export default async function MapPage({
               <Link
                 href="/map?status=declining"
                 className={`rounded-full px-4 py-2 text-sm ${
-                  searchParams.status === "declining"
-                    ? "bg-sky-500/10 text-sky-300 border-sky-400/20"
-                    : "border border-white/10 text-white/60 hover:bg-white/5"
+                  resolvedSearchParams.status === "declining"
+                    ? "bg-white text-black"
+                    : "border border-white/15 bg-white/5 text-white/80"
                 }`}
               >
                 Declining
               </Link>
-              <div className="relative">
-                <Link
-                  href={`/map?min_momentum=${searchParams.min_momentum || "70"}`}
-                  className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm ${
-                    searchParams.min_momentum
-                      ? "bg-purple-500/10 text-purple-300 border-purple-400/20"
-                      : "border border-white/10 text-white/60 hover:bg-white/5"
-                  }`}
-                >
-                  Momentum {searchParams.min_momentum ? `≥ ${searchParams.min_momentum}` : "Threshold"}
-                </Link>
-              </div>
+              <Link
+                href="/map?min_momentum=80"
+                className={`rounded-full px-4 py-2 text-sm ${
+                  resolvedSearchParams.min_momentum === "80"
+                    ? "bg-white text-black"
+                    : "border border-white/15 bg-white/5 text-white/80"
+                }`}
+              >
+                80+ Momentum
+              </Link>
             </div>
-            <div className="grid h-[520px] grid-cols-3 gap-4 overflow-y-auto">
-              {neighborhoods.map((n) => (
+          </div>
+
+          <MapLegend />
+        </div>
+
+        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
+          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+            <div className="grid h-[520px] grid-cols-3 gap-4">
+              {filteredNeighborhoods.map((n) => (
                 <div
                   key={n.slug}
                   className={`rounded-[1.5rem] border p-4 ${
@@ -149,8 +150,11 @@ export default async function MapPage({
           </div>
 
           <div className="grid gap-5">
-            {neighborhoods.map((neighborhood) => (
-              <NeighborhoodCard key={neighborhood.slug} neighborhood={neighborhood} />
+            {filteredNeighborhoods.map((neighborhood) => (
+              <NeighborhoodCard
+                key={neighborhood.slug}
+                neighborhood={neighborhood}
+              />
             ))}
           </div>
         </div>
