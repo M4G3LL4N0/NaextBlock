@@ -1,4 +1,14 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+
+type Database = {
+  naextblock: {
+    waitlist_signups: {
+      email: string;
+      full_name: string | null;
+      city: string | null;
+    };
+  };
+};
 
 function isValidHttpUrl(value: string | undefined): value is string {
   if (!value) return false;
@@ -15,9 +25,9 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const schema = process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || "naextblock";
 
-let cachedClient: any = null;
+let cachedClient: SupabaseClient<Database> | null = null;
 
-export function getSupabaseClient(): any | null {
+export function getSupabaseClient(): SupabaseClient<Database> | null {
   if (cachedClient) {
     return cachedClient;
   }

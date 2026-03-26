@@ -28,7 +28,10 @@ export async function POST(request: Request) {
       city: parsed.city || null,
     };
 
-    const { error } = await supabase.from("waitlist_signups").insert([payload]);
+    const { error } = await supabase
+      .from("waitlist_signups")
+      .insert([payload])
+      .select();
 
     if (error) {
       const message = error.message.toLowerCase();
