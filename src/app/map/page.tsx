@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Header } from "@/components/header";
 import { NeighborhoodCard } from "@/components/neighborhood-card";
 import { getNeighborhoods } from "@/lib/data";
+import { getCityStrategy } from "@/lib/strategy";
 
 function MapLegend() {
   return (
@@ -49,7 +50,13 @@ export default async function MapPage({
     <main>
       <Header />
 
-      <section className="mx-auto max-w-7xl px-6 py-14">
+      <section className="mx-auto max-w-7xl px-6 pt-10 pb-14">
+        <div className="mb-6 rounded-xl border border-white/15 bg-white/5 p-5 text-center">
+          <p className="text-sm font-medium text-emerald-400">CITY STRATEGY</p>
+          <p className="mt-1 text-lg font-medium text-white">
+            {getCityStrategy(neighborhoods)}
+          </p>
+        </div>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-white/45">
