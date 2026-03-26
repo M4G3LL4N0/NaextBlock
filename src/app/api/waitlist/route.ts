@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { supabase } from "@/lib/supabase/client";
-import type { WaitlistSignupInput } from "@/lib/types";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 const WaitlistSchema = z.object({
   email: z.string().email(),
@@ -11,42 +10,44 @@ const WaitlistSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const json = await request.json();
-    const parsed = WaitlistSchema.parse(json) as WaitlistSignupInput;
+    const supabase = getSupabaseClient();
 
-    const { error } = await supabase
-      .from("waitlist_signups")
-      .insert({
-        email: parsed.email,
-        full_name: parsed.full_name || null,
-        city: parsed.city || null,
-      });
-
-    if (error) {
-      if (error.code === "23505") {
-        const { data: existing } = await supabase
-          .from("waitlist_signups")
-          .select("email")
-          .eq("email", parsed.email)
-          .maybeSingle();
-
-        if (existing) {
-          return NextResponse.json(
-            { error: "That email is already on the waitlist." },
-            { status: 409 },
-          );
-        }
-      }
+    if (!supabase) {
       return NextResponse.json(
-        { error: "Failed to add to waitlist. Please try again." },
+        { error: "Supabase is not configured yet. Add valid environment variables." },
         { status: 500 },
       );
+    }
+
+    const json = await request.json();
+    const parsed = WaitlistSchema.parse(json);
+
+    const payload = {
+      email: parsed.email,
+      full_name: parsed.full_name || null,
+      city: parsed.city || null,
+    };
+
+    const { error } = await supabase.from("waitlist_signups").insert([payload]);
+
+    if (error) {
+      const message = error.message.toLowerCase();
+
+      if (message.includes("duplicate") || message.includes("unique")) {
+        return NextResponse.json(
+          { error: "That email is already on the waitlist." },
+          { status: 409 },
+        );
+      }
+
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Invalid request payload.";
+
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }
