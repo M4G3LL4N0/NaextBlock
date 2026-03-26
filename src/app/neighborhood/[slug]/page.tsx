@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/header";
 import { ScoreBadge } from "@/components/score-badge";
 import { getNeighborhoodBySlug } from "@/lib/data";
+import { generateNeighborhoodInsight } from "@/lib/insights";
 
 function formatMoney(value: number | null) {
   if (!value) return "—";
@@ -28,7 +29,38 @@ export default async function NeighborhoodPage({
     <main>
       <Header />
 
-      <section className="mx-auto max-w-7xl px-6 py-14">
+      <div className="mx-auto max-w-7xl px-6 py-6">
+        <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-5 backdrop-blur md:p-6">
+          <div className="flex items-start gap-2">
+            <div className="rounded-lg bg-emerald-400/20 p-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5 text-emerald-400"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                Strategic Insight
+              </h3>
+              <p className="mt-1 text-sm leading-6 text-white/80">
+                {generateNeighborhoodInsight(neighborhood)}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section className="mx-auto max-w-7xl px-6 pb-14">
         <p className="text-xs uppercase tracking-[0.24em] text-white/45">
           Neighborhood intelligence
         </p>
