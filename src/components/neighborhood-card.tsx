@@ -60,6 +60,18 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
     Emerging: "Improving fundamentals with selective opportunity"
   }[opportunityTier];
 
+  const timingLabel = neighborhood.buyer_timing_score >= 75
+    ? "Buy Now"
+    : neighborhood.buyer_timing_score >= 50
+      ? "Monitor"
+      : "Wait";
+
+  const sellerLabel = neighborhood.seller_intent_score >= 60
+    ? "Motivated"
+    : neighborhood.seller_intent_score >= 40
+      ? "Balanced"
+      : "Reluctant";
+
   return (
     <Link
       href={`/neighborhood/${neighborhood.slug}`}
@@ -117,6 +129,9 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
               style={{ width: `${neighborhood.investor_opportunity_score}%` }}
             />
           </div>
+          <p className="mt-1 text-xs text-white/60">
+            {opportunityTier} Potential
+          </p>
         </div>
         <div className="flex flex-col gap-1">
           <p className="text-xs uppercase tracking-[0.1em] text-white/50">Momentum</p>
@@ -129,6 +144,9 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
               style={{ width: `${neighborhood.momentum_score}%` }}
             />
           </div>
+          <p className="mt-1 text-xs text-white/60">
+            {statusLabel}
+          </p>
         </div>
         <div className="flex flex-col gap-1">
           <p className="text-xs uppercase tracking-[0.1em] text-white/50">Timing</p>
@@ -141,6 +159,9 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
               style={{ width: `${neighborhood.buyer_timing_score}%` }}
             />
           </div>
+          <p className="mt-1 text-xs text-white/60">
+            {timingLabel}
+          </p>
         </div>
       </div>
 

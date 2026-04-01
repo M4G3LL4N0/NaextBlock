@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { NeighborhoodCard } from "@/components/neighborhood-card";
-import { getNeighborhoods } from "@/lib/data";
-import { getCityStrategy } from "@/lib/strategy";
+import { getNeighborhoods, getTopOpportunity } from "@/lib/data";
+import { getCityStrategy } from "@/lib/insights";
 import { formatMoney } from "@/app/neighborhood/[slug]/page";
 
 function MapLegend() {
@@ -26,6 +26,8 @@ function MapLegend() {
 
 function getSummaryStats(neighborhoods: Neighborhood[]) {
   const risingCount = neighborhoods.filter(n => n.status === "rising").length;
+  const stableCount = neighborhoods.filter(n => n.status === "stable").length;
+  const decliningCount = neighborhoods.filter(n => n.status === "declining").length;
   const avgMomentum = neighborhoods.reduce((sum, n) => sum + n.momentum_score, 0) / neighborhoods.length;
   const topInvestorOpp = Math.max(...neighborhoods.map(n => n.investor_opportunity_score));
   const avgBuyerTiming = neighborhoods.reduce((sum, n) => sum + n.buyer_timing_score, 0) / neighborhoods.length;
@@ -34,11 +36,25 @@ function getSummaryStats(neighborhoods: Neighborhood[]) {
   return {
     total: neighborhoods.length,
     risingCount,
+    stableCount,
+    decliningCount,
     avgMomentum: Math.round(avgMomentum),
     topInvestorOpp,
     avgBuyerTiming: Math.round(avgBuyerTiming),
     avgSellerIntent: Math.round(avgSellerIntent)
   };
+}
+
+function getMarketPhase(neighborhoods: Neighborhood[]): string {
+  const risingPct = (neighborhoods.filter(n => n.status === "rising").length / neighborhoods.length) * 100;
+  const stablePct = (neighborhoods.filter(n => n.status === "stable").length / neighborhoods.length) * 100;
+  const decliningPct = (neighborhoods.filter(n => n.status === "declining").length / neighborhoods.length) * 100;
+
+  if (risingPct > 60) return "Expansion Phase";
+  if (stablePct > 60) return "Mature Phase";
+  if (decliningPct > 50) return "Contraction Phase";
+  if (risingPct > 40 && decliningPct > 30) return "Transition Phase";
+  return "Mixed Market Phase";
 }
 
 export default async function MapPage({
@@ -71,7 +87,7 @@ export default async function MapPage({
       <section className="mx-auto max-w-7xl px-6 pt-6 pb-12">
         <div className="mb-8 grid gap-5 lg:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Market Overview</p>
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Market Pulse</p>
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded-lg border border-white/10 bg-black/20 p-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Neighborhoods</p>
@@ -122,33 +138,29 @@ export default async function MapPage({
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-sky-400/80">Portfolio Mix</p>
-            <div className="mt-3 flex justify-between">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-emerald-400" />
-                <span className="text-sm text-white/80">Growth</span>
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-sky-400/80">Market Phase</p>
+            <p className="mt-3 text-lg font-medium text-white">
+              {getMarketPhase(neighborhoods)}
+            </p>
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Rising</p>
+                <p className="mt-2 text-xl font-semibold text-white">
+                  {stats.risingCount}
+                </p>
               </div>
-              <span className="text-sm font-medium text-white">
-                {Math.round((neighborhoods.filter(n => n.status === "rising").length / neighborhoods.length) * 100)}%
-              </span>
-            </div>
-            <div className="mt-2 flex justify-between">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-amber-400" />
-                <span className="text-sm text-white/80">Core</span>
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Stable</p>
+                <p className="mt-2 text-xl font-semibold text-white">
+                  {stats.stableCount}
+                </p>
               </div>
-              <span className="text-sm font-medium text-white">
-                {Math.round((neighborhoods.filter(n => n.status === "stable").length / neighborhoods.length) * 100)}%
-              </span>
-            </div>
-            <div className="mt-2 flex justify-between">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-sky-400" />
-                <span className="text-sm text-white/80">Value</span>
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Declining</p>
+                <p className="mt-2 text-xl font-semibold text-white">
+                  {stats.decliningCount}
+                </p>
               </div>
-              <span className="text-sm font-medium text-white">
-                {Math.round((neighborhoods.filter(n => n.status === "declining").length / neighborhoods.length) * 100)}%
-              </span>
             </div>
           </div>
         </div>
@@ -253,7 +265,7 @@ export default async function MapPage({
         <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-white">Market Grid</h2>
+              <h2 className="text-xl font-semibold text-white">Market Heatmap</h2>
               <p className="text-sm text-white/50">
                 Showing {filteredNeighborhoods.length} of {neighborhoods.length} neighborhoods
               </p>
@@ -277,7 +289,23 @@ export default async function MapPage({
                   <p className="mt-2 text-xs uppercase tracking-[0.2em] text-white/55">
                     {n.status}
                   </p>
-                  <p className="mt-4 text-xs leading-5 text-white/60">
+                  <div className="mt-4 flex items-center gap-2">
+                    <span className={`h-2 w-2 rounded-full ${
+                      n.investor_opportunity_score >= 80 
+                        ? "bg-emerald-400" 
+                        : n.investor_opportunity_score >= 60
+                          ? "bg-amber-400"
+                          : "bg-sky-400"
+                    }`} />
+                    <p className="text-xs text-white/60">
+                      {n.investor_opportunity_score >= 80 
+                        ? "Prime" 
+                        : n.investor_opportunity_score >= 60
+                          ? "Strong"
+                          : "Emerging"}
+                    </p>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-white/60">
                     {n.short_description}
                   </p>
                 </div>
@@ -286,12 +314,14 @@ export default async function MapPage({
           </div>
 
           <div className="grid gap-5">
-            {filteredNeighborhoods.map((neighborhood) => (
-              <NeighborhoodCard
-                key={neighborhood.slug}
-                neighborhood={neighborhood}
-              />
-            ))}
+            {filteredNeighborhoods
+              .sort((a, b) => b.investor_opportunity_score - a.investor_opportunity_score)
+              .map((neighborhood) => (
+                <NeighborhoodCard
+                  key={neighborhood.slug}
+                  neighborhood={neighborhood}
+                />
+              ))}
           </div>
         </div>
       </section>
