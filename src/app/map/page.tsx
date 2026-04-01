@@ -3,6 +3,7 @@ import { Header } from "@/components/header";
 import { NeighborhoodCard } from "@/components/neighborhood-card";
 import { getNeighborhoods } from "@/lib/data";
 import { getCityStrategy } from "@/lib/strategy";
+import { formatMoney } from "@/app/neighborhood/[slug]/page";
 
 function MapLegend() {
   return (
@@ -21,6 +22,21 @@ function MapLegend() {
       </div>
     </div>
   );
+}
+
+function getSummaryStats(neighborhoods: Neighborhood[]) {
+  const risingCount = neighborhoods.filter(n => n.status === "rising").length;
+  const avgMomentum = neighborhoods.reduce((sum, n) => sum + n.momentum_score, 0) / neighborhoods.length;
+  const topInvestorOpp = Math.max(...neighborhoods.map(n => n.investor_opportunity_score));
+  const avgPrice = neighborhoods.reduce((sum, n) => sum + (n.median_home_price || 0), 0) / neighborhoods.length;
+
+  return {
+    total: neighborhoods.length,
+    risingCount,
+    avgMomentum: Math.round(avgMomentum),
+    topInvestorOpp,
+    avgPrice
+  };
 }
 
 export default async function MapPage({
@@ -51,12 +67,51 @@ export default async function MapPage({
       <Header />
 
       <section className="mx-auto max-w-7xl px-6 pt-10 pb-14">
-        <div className="mb-6 rounded-xl border border-white/15 bg-white/5 p-5 text-center">
-          <p className="text-sm font-medium text-emerald-400">CITY STRATEGY</p>
-          <p className="mt-1 text-lg font-medium text-white">
-            {getCityStrategy(neighborhoods)}
-          </p>
+        <div className="mb-8 grid gap-6 lg:grid-cols-2">
+          <div className="rounded-xl border border-white/15 bg-white/5 p-6">
+            <p className="text-sm font-medium text-emerald-400">CITY STRATEGY</p>
+            <p className="mt-2 text-lg font-medium text-white">
+              {getCityStrategy(neighborhoods)}
+            </p>
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Market Health</p>
+                <p className="mt-2 text-2xl font-semibold text-white">
+                  {neighborhoods.filter(n => n.status === "rising").length > neighborhoods.length / 2 
+                    ? "Strong" 
+                    : "Mixed"}
+                </p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Recommended Action</p>
+                <p className="mt-2 text-2xl font-semibold text-white">
+                  {neighborhoods.filter(n => n.investor_opportunity_score >= 80).length > 2 
+                    ? "Focus" 
+                    : "Monitor"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-white/15 bg-white/5 p-6">
+            <p className="text-sm font-medium text-emerald-400">MARKET SNAPSHOT</p>
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Avg Price</p>
+                <p className="mt-2 text-2xl font-semibold text-white">
+                  {formatMoney(getSummaryStats(neighborhoods).avgPrice)}
+                </p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Top Momentum</p>
+                <p className="mt-2 text-2xl font-semibold text-white">
+                  {Math.max(...neighborhoods.map(n => n.momentum_score))}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-white/45">
@@ -70,66 +125,99 @@ export default async function MapPage({
               momentum, investor opportunity, and buyer timing.
             </p>
 
-            <div className="mt-4 mb-6 flex flex-wrap gap-4">
-              <Link
-                href="/map"
-                className={`rounded-full px-4 py-2 text-sm ${
-                  !resolvedSearchParams.status && !resolvedSearchParams.min_momentum
-                    ? "bg-white text-black"
-                    : "border border-white/15 bg-white/5 text-white/80"
-                }`}
-              >
-                All
-              </Link>
-              <Link
-                href="/map?status=rising"
-                className={`rounded-full px-4 py-2 text-sm ${
-                  resolvedSearchParams.status === "rising"
-                    ? "bg-white text-black"
-                    : "border border-white/15 bg-white/5 text-white/80"
-                }`}
-              >
-                Rising
-              </Link>
-              <Link
-                href="/map?status=stable"
-                className={`rounded-full px-4 py-2 text-sm ${
-                  resolvedSearchParams.status === "stable"
-                    ? "bg-white text-black"
-                    : "border border-white/15 bg-white/5 text-white/80"
-                }`}
-              >
-                Stable
-              </Link>
-              <Link
-                href="/map?status=declining"
-                className={`rounded-full px-4 py-2 text-sm ${
-                  resolvedSearchParams.status === "declining"
-                    ? "bg-white text-black"
-                    : "border border-white/15 bg-white/5 text-white/80"
-                }`}
-              >
-                Declining
-              </Link>
-              <Link
-                href="/map?min_momentum=80"
-                className={`rounded-full px-4 py-2 text-sm ${
-                  resolvedSearchParams.min_momentum === "80"
-                    ? "bg-white text-black"
-                    : "border border-white/15 bg-white/5 text-white/80"
-                }`}
-              >
-                80+ Momentum
-              </Link>
+            <div className="mt-4 mb-6 flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-2">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Filters:</p>
+                <Link
+                  href="/map"
+                  className={`rounded-full px-4 py-2 text-sm ${
+                    !resolvedSearchParams.status && !resolvedSearchParams.min_momentum
+                      ? "bg-white text-black"
+                      : "border border-white/15 bg-white/5 text-white/80"
+                  }`}
+                >
+                  All
+                </Link>
+                <Link
+                  href="/map?status=rising"
+                  className={`rounded-full px-4 py-2 text-sm ${
+                    resolvedSearchParams.status === "rising"
+                      ? "bg-white text-black"
+                      : "border border-white/15 bg-white/5 text-white/80"
+                  }`}
+                >
+                  Rising
+                </Link>
+                <Link
+                  href="/map?status=stable"
+                  className={`rounded-full px-4 py-2 text-sm ${
+                    resolvedSearchParams.status === "stable"
+                      ? "bg-white text-black"
+                      : "border border-white/15 bg-white/5 text-white/80"
+                  }`}
+                >
+                  Stable
+                </Link>
+                <Link
+                  href="/map?status=declining"
+                  className={`rounded-full px-4 py-2 text-sm ${
+                    resolvedSearchParams.status === "declining"
+                      ? "bg-white text-black"
+                      : "border border-white/15 bg-white/5 text-white/80"
+                  }`}
+                >
+                  Declining
+                </Link>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Momentum:</p>
+                <Link
+                  href="/map?min_momentum=50"
+                  className={`rounded-full px-4 py-2 text-sm ${
+                    resolvedSearchParams.min_momentum === "50"
+                      ? "bg-white text-black"
+                      : "border border-white/15 bg-white/5 text-white/80"
+                  }`}
+                >
+                  50+
+                </Link>
+                <Link
+                  href="/map?min_momentum=70"
+                  className={`rounded-full px-4 py-2 text-sm ${
+                    resolvedSearchParams.min_momentum === "70"
+                      ? "bg-white text-black"
+                      : "border border-white/15 bg-white/5 text-white/80"
+                  }`}
+                >
+                  70+
+                </Link>
+                <Link
+                  href="/map?min_momentum=80"
+                  className={`rounded-full px-4 py-2 text-sm ${
+                    resolvedSearchParams.min_momentum === "80"
+                      ? "bg-white text-black"
+                      : "border border-white/15 bg-white/5 text-white/80"
+                  }`}
+                >
+                  80+
+                </Link>
+              </div>
             </div>
           </div>
 
           <MapLegend />
         </div>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <div className="grid h-[520px] grid-cols-3 gap-4">
+        <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
+          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-white">Market Grid</h2>
+              <p className="text-sm text-white/50">
+                Showing {filteredNeighborhoods.length} of {neighborhoods.length} neighborhoods
+              </p>
+            </div>
+            <div className="grid h-[520px] grid-cols-3 gap-4 overflow-y-auto">
               {filteredNeighborhoods.map((n) => (
                 <div
                   key={n.slug}
