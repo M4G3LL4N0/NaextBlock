@@ -16,15 +16,15 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-6 pt-32 pb-40">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm uppercase tracking-[0.2em] text-emerald-400/80">
-            Predictive Market Intelligence
+            Forward-Looking Market Intelligence
           </p>
           <h1 className="text-5xl font-semibold tracking-tight text-white">
-            The Next Move in Real Estate
+            Predictive Insights for Strategic Investors
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-white/80">
-            NaextBlock delivers forward-looking neighborhood intelligence for discerning investors.
-            Our proprietary analytics surface momentum signals, timing indicators, and strategic
-            insights before the market fully sees them.
+            NaextBlock delivers proprietary neighborhood-level analytics to identify emerging opportunities, 
+            assess market timing, and optimize capital deployment. Our models surface momentum signals 
+            and strategic insights before they're priced in.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -32,13 +32,13 @@ export default async function HomePage() {
               href="/map"
               className="rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-500 px-6 py-3.5 text-sm font-semibold text-black transition hover:opacity-90"
             >
-              Explore Markets
+              Explore Market Intelligence
             </Link>
             <Link
               href="#waitlist"
               className="rounded-xl border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10 hover:border-white/20"
             >
-              Request Access
+              Request Early Access
             </Link>
           </div>
         </div>
@@ -49,7 +49,7 @@ export default async function HomePage() {
           <h2 className="text-3xl font-semibold tracking-tight">
             Top Opportunities Right Now
           </h2>
-          <p className="section-copy mt-4">
+          <p className="mt-4 text-lg text-white/80">
             Our proprietary scoring identifies neighborhoods with the strongest
             investment potential based on momentum, growth projections, and market dynamics.
           </p>
@@ -65,7 +65,13 @@ export default async function HomePage() {
 
             return (
               <div key={neighborhood.id} className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <h3 className="text-xl font-semibold text-white">{neighborhood.name}</h3>
+                <div className="flex items-start justify-between">
+                  <h3 className="text-xl font-semibold text-white">{neighborhood.name}</h3>
+                  <span className={`h-3 w-3 rounded-full ${
+                    neighborhood.status === "rising" ? "bg-emerald-400" :
+                    neighborhood.status === "stable" ? "bg-amber-400" : "bg-sky-400"
+                  }`} />
+                </div>
                 <div className="mt-3 flex items-baseline gap-2">
                   <span className="text-3xl font-bold text-white">
                     {neighborhood.investor_opportunity_score}
@@ -88,6 +94,14 @@ export default async function HomePage() {
                         : "—"}
                     </p>
                   </div>
+                </div>
+                <div className="mt-6">
+                  <Link
+                    href={`/neighborhood/${neighborhood.slug}`}
+                    className="text-sm font-medium text-emerald-400 hover:text-emerald-300"
+                  >
+                    View Analysis →
+                  </Link>
                 </div>
               </div>
             );

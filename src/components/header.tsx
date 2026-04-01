@@ -8,7 +8,8 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <div className="h-6 w-6 rounded-sm bg-gradient-to-br from-emerald-400 to-emerald-500" />
           <p className="text-lg font-medium tracking-tight text-white">
-            Naext<span className="font-light text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-emerald-500">Block</span>
+            <span className="font-medium">Naext</span>
+            <span className="font-light text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-emerald-500">Block</span>
           </p>
         </Link>
 

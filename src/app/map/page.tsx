@@ -29,13 +29,15 @@ function getSummaryStats(neighborhoods: Neighborhood[]) {
   const avgMomentum = neighborhoods.reduce((sum, n) => sum + n.momentum_score, 0) / neighborhoods.length;
   const topInvestorOpp = Math.max(...neighborhoods.map(n => n.investor_opportunity_score));
   const avgBuyerTiming = neighborhoods.reduce((sum, n) => sum + n.buyer_timing_score, 0) / neighborhoods.length;
+  const avgSellerIntent = neighborhoods.reduce((sum, n) => sum + n.seller_intent_score, 0) / neighborhoods.length;
 
   return {
     total: neighborhoods.length,
     risingCount,
     avgMomentum: Math.round(avgMomentum),
     topInvestorOpp,
-    avgBuyerTiming: Math.round(avgBuyerTiming)
+    avgBuyerTiming: Math.round(avgBuyerTiming),
+    avgSellerIntent: Math.round(avgSellerIntent)
   };
 }
 
