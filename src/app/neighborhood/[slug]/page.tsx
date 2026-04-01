@@ -58,12 +58,33 @@ export default async function NeighborhoodPage({
             </div>
             <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-sm text-white/60">Median Price</p>
-                <p className="text-2xl font-medium text-white">
-                  {formatMoney(neighborhood.median_home_price)}
-                </p>
+                <div className="space-y-1">
+                  <p className="text-sm text-white/60">Median Price</p>
+                  <p className="text-2xl font-medium text-white">
+                    {formatMoney(neighborhood.median_home_price)}
+                  </p>
+                  {neighborhood.tracking_count && neighborhood.tracking_count > 0 && (
+                    <p className="text-xs text-emerald-400/80">
+                      Tracked by {neighborhood.tracking_count} investors
+                    </p>
+                  )}
+                </div>
               </div>
-              <button className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-400/20">
+              <button className="flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-400/20">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4"
+                >
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                </svg>
                 Track Neighborhood
               </button>
             </div>
@@ -241,6 +262,37 @@ export default async function NeighborhoodPage({
                 </ul>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Tracking Section */}
+        <div className="mt-8 rounded-xl border border-white/5 bg-white/5 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-medium uppercase tracking-wider text-white/60">
+                Track This Neighborhood
+              </h3>
+              <p className="mt-2 text-white/80">
+                Get alerts when market conditions change or new opportunities emerge.
+              </p>
+            </div>
+            <button className="flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-400/20">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+              >
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+              </svg>
+              Track Neighborhood
+            </button>
           </div>
         </div>
 

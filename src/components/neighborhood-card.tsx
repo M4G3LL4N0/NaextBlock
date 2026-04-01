@@ -59,11 +59,11 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
       className="group relative rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:border-white/20 hover:bg-white/[0.08]"
     >
       <button
-        className="absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white/60 transition hover:border-white/20 hover:text-white/80"
+        className="absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white/60 transition hover:border-white/20 hover:text-white/80 group-hover:bg-white/10"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          // TODO: Implement watchlist tracking
+          // Will be implemented with auth
         }}
         aria-label="Track neighborhood"
       >
@@ -81,7 +81,7 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
         >
           <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
         </svg>
-        <span>Track</span>
+        <span className="hidden sm:inline">Track</span>
       </button>
       <div className="flex items-start justify-between gap-4">
         <div>
