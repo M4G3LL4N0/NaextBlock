@@ -46,31 +46,36 @@ export default async function NeighborhoodPage({
 
       <div className="mx-auto max-w-7xl px-6 py-8">
         {/* Intelligence Header */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <h1 className="text-4xl font-semibold tracking-tight text-white">
+        <div className="rounded-xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-6 backdrop-blur">
+          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <span className={`h-3 w-3 rounded-full ${statusColor}`} />
+                <span className="text-sm font-medium uppercase tracking-wider text-white/60">
+                  {statusLabel}
+                </span>
+              </div>
+              <h1 className="text-3xl font-semibold tracking-tight text-white">
                 {neighborhood.name}
               </h1>
-              <p className="mt-2 text-lg text-white/80">
+              <p className="text-lg text-white/80">
                 {neighborhood.short_description}
               </p>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <div className="space-y-1">
-                  <p className="text-sm text-white/60">Median Price</p>
-                  <p className="text-2xl font-medium text-white">
-                    {formatMoney(neighborhood.median_home_price)}
+            
+            <div className="flex flex-col gap-4 sm:flex-row md:flex-col">
+              <div className="space-y-1 text-right">
+                <p className="text-sm text-white/60">Median Price</p>
+                <p className="text-2xl font-medium text-white">
+                  {formatMoney(neighborhood.median_home_price)}
+                </p>
+                {neighborhood.tracking_count && neighborhood.tracking_count > 0 && (
+                  <p className="text-xs text-emerald-400/80">
+                    Tracked by {neighborhood.tracking_count} investors
                   </p>
-                  {neighborhood.tracking_count && neighborhood.tracking_count > 0 && (
-                    <p className="text-xs text-emerald-400/80">
-                      Tracked by {neighborhood.tracking_count} investors
-                    </p>
-                  )}
-                </div>
+                )}
               </div>
-              <button className="flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-400/20">
+              <button className="flex items-center justify-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-400/20">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -90,7 +95,7 @@ export default async function NeighborhoodPage({
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-3">
             <div className="rounded-lg border border-white/10 bg-black/20 p-4">
               <p className="text-xs font-medium uppercase tracking-wider text-white/60">
                 Market Profile
@@ -99,7 +104,7 @@ export default async function NeighborhoodPage({
             </div>
             <div className="rounded-lg border border-white/10 bg-black/20 p-4">
               <p className="text-xs font-medium uppercase tracking-wider text-white/60">
-                3Y Growth Projection
+                Growth Outlook
               </p>
               <p className="mt-2 text-xl font-medium text-white">
                 {neighborhood.projected_growth_3y ?? 0}%
@@ -107,10 +112,10 @@ export default async function NeighborhoodPage({
             </div>
             <div className="rounded-lg border border-white/10 bg-black/20 p-4">
               <p className="text-xs font-medium uppercase tracking-wider text-white/60">
-                Strategic Pulse
+                Investor Score
               </p>
-              <p className="mt-2 text-xl font-medium capitalize text-white">
-                {neighborhood.status}
+              <p className="mt-2 text-xl font-medium text-white">
+                {neighborhood.investor_opportunity_score}
               </p>
             </div>
           </div>

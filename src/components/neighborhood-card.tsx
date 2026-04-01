@@ -36,29 +36,34 @@ function getSellerLabel(score: number) {
 }
 
 export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood }) {
-  const trendColor =
-    neighborhood.status === "rising"
-      ? "bg-emerald-400"
-      : neighborhood.status === "stable"
-        ? "bg-amber-400"
-        : "bg-sky-400";
+  const statusColor = {
+    rising: "bg-emerald-400",
+    stable: "bg-amber-400",
+    declining: "bg-sky-400"
+  }[neighborhood.status];
 
-  const trendLabel = neighborhood.status === "rising" 
-    ? "Rising" 
-    : neighborhood.status === "stable" 
-      ? "Stable" 
-      : "Declining";
+  const statusLabel = {
+    rising: "Rising Momentum",
+    stable: "Stable Market",
+    declining: "Value Opportunity"
+  }[neighborhood.status];
 
-  const opportunityRationale = neighborhood.investor_opportunity_score >= 85
-    ? "Exceptional growth potential with strong momentum"
+  const opportunityTier = neighborhood.investor_opportunity_score >= 85
+    ? "Prime"
     : neighborhood.investor_opportunity_score >= 75
-      ? "High upside with favorable market conditions"
-      : "Emerging opportunity with improving fundamentals";
+      ? "Strong"
+      : "Emerging";
+
+  const opportunityRationale = {
+    Prime: "Exceptional growth potential with strong momentum signals",
+    Strong: "High upside with favorable market conditions",
+    Emerging: "Improving fundamentals with selective opportunity"
+  }[opportunityTier];
 
   return (
     <Link
       href={`/neighborhood/${neighborhood.slug}`}
-      className="group relative rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-white/20 hover:bg-white/10"
+      className="group relative rounded-xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-5 transition hover:border-white/20 hover:bg-white/10"
     >
       <button
         className="absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white/60 transition hover:border-white/20 hover:text-white/80 group-hover:bg-white/10"
