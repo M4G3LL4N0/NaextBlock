@@ -132,15 +132,7 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
       </div>
 
       <div className="mt-4 text-xs leading-5 text-white/70">
-        {neighborhood.investor_opportunity_score >= 80 && (
-          <p>Prime target with strong fundamentals and upside potential.</p>
-        )}
-        {neighborhood.investor_opportunity_score >= 60 && neighborhood.investor_opportunity_score < 80 && (
-          <p>Growth opportunity with balanced risk/reward.</p>
-        )}
-        {neighborhood.investor_opportunity_score < 60 && (
-          <p>Special situations or long-term hold potential.</p>
-        )}
+        <p>{generateNeighborhoodInsight(neighborhood).split(".")[0]}.</p>
       </div>
       <div className="mt-4 flex items-center justify-between">
         <span className="text-sm font-medium text-white/80 transition group-hover:text-white">

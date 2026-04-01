@@ -71,7 +71,7 @@ export default async function MapPage({
           <div className="rounded-lg border border-white/10 bg-black/50 p-5">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Strategic Outlook</p>
             <p className="mt-3 text-lg font-medium text-white">
-              {neighborhoods.filter(n => n.status === "rising").length} of {neighborhoods.length} neighborhoods accelerating
+              {getCityStrategy(neighborhoods)}
             </p>
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded border border-white/10 bg-black/30 p-3">
