@@ -4,6 +4,8 @@ export interface Neighborhood {
   id: string;
   slug: string;
   name: string;
+  is_tracked?: boolean;
+  tracking_count?: number;
   short_description: string | null;
   long_description: string | null;
   median_home_price: number | null;

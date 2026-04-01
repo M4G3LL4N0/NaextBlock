@@ -88,6 +88,9 @@ export default async function NeighborhoodPage({
             <button 
               className="flex items-center gap-2 self-center rounded-full border border-emerald-400/30 bg-black/30 px-6 py-3 text-emerald-400 transition hover:border-emerald-400/50 hover:bg-emerald-400/10 hover:shadow-[0_0_0_3px_rgba(74,222,128,0.1)]"
               title="Track neighborhood"
+              onClick={() => {
+                // TODO: Implement watchlist tracking
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
