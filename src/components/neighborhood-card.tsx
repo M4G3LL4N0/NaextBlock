@@ -36,22 +36,18 @@ function getSellerLabel(score: number) {
 }
 
 export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood }) {
-  const investmentLabel = getInvestmentLabel(neighborhood.investor_opportunity_score);
-  const timingLabel = getTimingLabel(neighborhood.buyer_timing_score);
-  const sellerLabel = getSellerLabel(neighborhood.seller_intent_score);
-  const trendLabel =
-    neighborhood.status === "rising"
-      ? "Rising"
-      : neighborhood.status === "stable"
-        ? "Stable"
-        : "Declining";
-
   const trendColor =
     neighborhood.status === "rising"
       ? "bg-emerald-400"
       : neighborhood.status === "stable"
         ? "bg-amber-400"
         : "bg-sky-400";
+
+  const opportunityRationale = neighborhood.investor_opportunity_score >= 85
+    ? "Exceptional growth potential with strong momentum"
+    : neighborhood.investor_opportunity_score >= 75
+      ? "High upside with favorable market conditions"
+      : "Emerging opportunity with improving fundamentals";
 
   return (
     <Link
@@ -100,39 +96,50 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
 
       <div className="mt-6 grid grid-cols-3 gap-3 text-sm">
         <div className="flex flex-col gap-1">
-          <p className="text-white/45">Opportunity</p>
+          <p className="text-xs uppercase tracking-[0.1em] text-white/50">Opportunity</p>
           <p className="text-xl font-semibold text-white">
             {neighborhood.investor_opportunity_score}
           </p>
-          <p className="text-xs uppercase tracking-[0.1em] text-white/50">
-            {neighborhood.investor_opportunity_score >= 80 ? "High Conviction" : 
-             neighborhood.investor_opportunity_score >= 60 ? "Growth" : "Selective"}
-          </p>
+          <div className="h-1.5 w-full rounded-full bg-white/5">
+            <div 
+              className="h-1.5 rounded-full bg-emerald-400" 
+              style={{ width: `${neighborhood.investor_opportunity_score}%` }}
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-1">
-          <p className="text-white/45">Momentum</p>
+          <p className="text-xs uppercase tracking-[0.1em] text-white/50">Momentum</p>
           <p className="text-xl font-semibold text-white">
             {neighborhood.momentum_score}
           </p>
-          <p className="text-xs uppercase tracking-[0.1em] text-white/50">
-            {neighborhood.status === "rising" ? "Accelerating" :
-             neighborhood.status === "stable" ? "Steady" : "Declining"}
-          </p>
+          <div className="h-1.5 w-full rounded-full bg-white/5">
+            <div 
+              className="h-1.5 rounded-full bg-amber-400" 
+              style={{ width: `${neighborhood.momentum_score}%` }}
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-1">
-          <p className="text-white/45">Timing</p>
+          <p className="text-xs uppercase tracking-[0.1em] text-white/50">Timing</p>
           <p className="text-xl font-semibold text-white">
             {neighborhood.buyer_timing_score}
           </p>
-          <p className="text-xs uppercase tracking-[0.1em] text-white/50">
-            {neighborhood.buyer_timing_score >= 75 ? "Buy Now" :
-             neighborhood.buyer_timing_score >= 50 ? "Monitor" : "Wait"}
-          </p>
+          <div className="h-1.5 w-full rounded-full bg-white/5">
+            <div 
+              className="h-1.5 rounded-full bg-sky-400" 
+              style={{ width: `${neighborhood.buyer_timing_score}%` }}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="mt-4 text-xs leading-5 text-white/70">
-        <p>{generateNeighborhoodInsight(neighborhood).split(".")[0]}.</p>
+      <div className="mt-4 space-y-2">
+        <p className="text-xs leading-5 text-white/70">
+          {opportunityRationale}
+        </p>
+        <p className="text-xs leading-5 text-white/50">
+          {generateNeighborhoodInsight(neighborhood).split(".")[0]}.
+        </p>
       </div>
       <div className="mt-4 flex items-center justify-between">
         <span className="text-sm font-medium text-white/80 transition group-hover:text-white">

@@ -46,13 +46,16 @@ export function WaitlistForm() {
 
   if (status === "success") {
     return (
-      <div className="space-y-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-6 text-center">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/15">
+      <div className="space-y-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-8 text-center">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-500/10">
           <FiCheck className="h-6 w-6 text-emerald-400" />
         </div>
         <h3 className="text-lg font-medium text-white">Access Granted</h3>
         <p className="text-sm text-white/80">
           You're now on the NaextBlock waitlist. We'll notify you when your access is ready.
+        </p>
+        <p className="text-xs text-white/50">
+          Early access includes 3 months of premium intelligence at no cost.
         </p>
       </div>
     );
@@ -65,7 +68,7 @@ export function WaitlistForm() {
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           placeholder="John Smith"
-          className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all placeholder:text-white/35 focus:border-white/20 focus:ring-1 focus:ring-white/5"
+          className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all placeholder:text-white/35 focus:border-white/20 focus:ring-1 focus:ring-white/5 hover:bg-white/10"
           disabled={isLoading}
         />
       </div>
@@ -85,7 +88,7 @@ export function WaitlistForm() {
       />
       <button
         type="submit"
-        className="w-full rounded-2xl bg-white px-4 py-3 font-semibold text-black transition hover:opacity-90"
+        className="w-full rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-500 px-4 py-3 font-semibold text-black transition hover:opacity-90"
       >
         Join the waitlist
       </button>

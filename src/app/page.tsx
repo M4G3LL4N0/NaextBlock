@@ -16,28 +16,27 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-6 pt-32 pb-40">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm uppercase tracking-[0.2em] text-emerald-400/80">
-            Predictive Real Estate Intelligence
+            Predictive Market Intelligence
           </p>
           <h1 className="text-5xl font-semibold tracking-tight text-white">
-            See Where Markets Are Moving Next
+            The Next Move in Real Estate
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-white/80">
-            NaextBlock delivers premium neighborhood-level intelligence to help investors
-            identify emerging opportunities before the market fully sees them. Our proprietary
-            analytics surface momentum signals, timing indicators, and strategic insights
-            for discerning investors.
+            NaextBlock delivers forward-looking neighborhood intelligence for discerning investors.
+            Our proprietary analytics surface momentum signals, timing indicators, and strategic
+            insights before the market fully sees them.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/map"
-              className="rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-black transition hover:opacity-90"
+              className="rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-500 px-6 py-3.5 text-sm font-semibold text-black transition hover:opacity-90"
             >
               Explore Markets
             </Link>
             <Link
               href="#waitlist"
-              className="rounded-xl border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="rounded-xl border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10 hover:border-white/20"
             >
               Request Access
             </Link>
@@ -58,35 +57,32 @@ export default async function HomePage() {
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {topOpportunities.map((neighborhood) => {
-            let rationale = "";
-            if (neighborhood.investor_opportunity_score >= 85) {
-              rationale = "Exceptional growth potential with strong momentum";
-            } else if (neighborhood.investor_opportunity_score >= 75) {
-              rationale = "High upside with favorable market conditions";
-            } else {
-              rationale = "Emerging opportunity with improving fundamentals";
-            }
+            const rationale = neighborhood.investor_opportunity_score >= 85
+              ? "Exceptional growth potential with strong momentum"
+              : neighborhood.investor_opportunity_score >= 75
+                ? "High upside with favorable market conditions"
+                : "Emerging opportunity with improving fundamentals";
 
             return (
-              <div key={neighborhood.id} className="card p-6">
-                <h3 className="text-xl font-semibold">{neighborhood.name}</h3>
+              <div key={neighborhood.id} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                <h3 className="text-xl font-semibold text-white">{neighborhood.name}</h3>
                 <div className="mt-3 flex items-baseline gap-2">
-                  <span className="text-3xl font-bold">
+                  <span className="text-3xl font-bold text-white">
                     {neighborhood.investor_opportunity_score}
                   </span>
-                  <span className="text-sm text-neutral-400">Investor Score</span>
+                  <span className="text-sm text-white/50">Investor Score</span>
                 </div>
-                <p className="mt-4 text-neutral-400">{rationale}</p>
+                <p className="mt-4 text-sm text-white/70">{rationale}</p>
                 <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <p className="text-neutral-400">Projected Growth</p>
-                    <p className="mt-1 font-medium">
+                    <p className="text-white/50">Projected Growth</p>
+                    <p className="mt-1 font-medium text-white">
                       {neighborhood.projected_growth_3y}%
                     </p>
                   </div>
                   <div>
-                    <p className="text-neutral-400">Median Price</p>
-                    <p className="mt-1 font-medium">
+                    <p className="text-white/50">Median Price</p>
+                    <p className="mt-1 font-medium text-white">
                       {neighborhood.median_home_price
                         ? `$${neighborhood.median_home_price.toLocaleString()}`
                         : "—"}
@@ -101,10 +97,10 @@ export default async function HomePage() {
 
       <section className="container-wrap py-20">
         <div className="mb-10 max-w-2xl">
-          <h2 className="text-3xl font-semibold tracking-tight">
+          <h2 className="text-3xl font-semibold tracking-tight text-white">
             Featured Neighborhoods
           </h2>
-          <p className="section-copy mt-4">
+          <p className="mt-4 text-lg text-white/80">
             Explore in-depth analytics for neighborhoods with strong investment profiles
             across key metrics including momentum, appreciation potential, and market timing.
           </p>
@@ -156,24 +152,26 @@ export default async function HomePage() {
       </section>
 
       <section className="container-wrap py-20">
-        <div className="card grid gap-10 p-8 xl:grid-cols-2">
-          <div className="space-y-5">
-            <h2 className="text-3xl font-semibold tracking-tight">
-              Join NaextBlock{"'"}s Beta Program
-            </h2>
-            <div className="space-y-4 text-neutral-300">
-              <p>
-                Apply for early access to our predictive real estate intelligence platform. 
-                Spaces are limited to serious investors only.
-              </p>
-              <p>
-                Beta members receive 3 months of free access and direct input into product development.
-              </p>
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
+          <div className="grid gap-10 xl:grid-cols-2">
+            <div className="space-y-5">
+              <h2 className="text-3xl font-semibold tracking-tight text-white">
+                Join NaextBlock{"'"}s Beta Program
+              </h2>
+              <div className="space-y-4 text-white/80">
+                <p>
+                  Apply for early access to our predictive real estate intelligence platform. 
+                  Spaces are limited to serious investors only.
+                </p>
+                <p>
+                  Beta members receive 3 months of premium access and direct input into product development.
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="relative">
-            <div className="rounded-2xl border border-white/5 bg-gradient-to-b from-white/5 to-transparent p-6 backdrop-blur sm:p-10">
-              <WaitlistForm />
+            <div className="relative">
+              <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-6 backdrop-blur sm:p-8">
+                <WaitlistForm />
+              </div>
             </div>
           </div>
         </div>
