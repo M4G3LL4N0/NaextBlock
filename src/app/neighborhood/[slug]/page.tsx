@@ -29,10 +29,10 @@ export default async function NeighborhoodPage({
     <main>
       <Header />
 
-      <div className="mx-auto max-w-7xl px-6 py-6">
-        <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-5 backdrop-blur md:p-6">
+      <div className="mx-auto max-w-7xl px-6 py-5">
+        <div className="rounded-lg border border-emerald-400/20 bg-black/50 p-4">
           <div className="flex items-start gap-2">
-            <div className="rounded-lg bg-emerald-400/20 p-2">
+            <div className="rounded border border-emerald-400/20 bg-emerald-400/10 p-1.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -43,13 +43,13 @@ export default async function NeighborhoodPage({
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="h-5 w-5 text-emerald-400"
+                className="h-4 w-4 text-emerald-400/80"
               >
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
             </div>
             <div className="flex-1">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+              <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">
                 Strategic Insight
               </h3>
               <p className="mt-1 text-sm leading-6 text-white/80">

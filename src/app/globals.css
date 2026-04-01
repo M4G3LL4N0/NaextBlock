@@ -10,13 +10,31 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(circle at top, rgba(37, 99, 235, 0.14), transparent 28%),
-    linear-gradient(180deg, #050505 0%, #07070a 100%);
+  background: #050505;
   color: var(--foreground);
   min-height: 100vh;
+  font-feature-settings: 'ss01' on, 'ss03' on, 'cv05' on;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a2a;
 }

@@ -66,25 +66,25 @@ export default async function MapPage({
     <main>
       <Header />
 
-      <section className="mx-auto max-w-7xl px-6 pt-10 pb-14">
-        <div className="mb-8 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-white/15 bg-white/5 p-6">
-            <p className="text-sm font-medium text-emerald-400">CITY STRATEGY</p>
-            <p className="mt-2 text-lg font-medium text-white">
+      <section className="mx-auto max-w-7xl px-6 pt-8 pb-14">
+        <div className="mb-8 grid gap-5 lg:grid-cols-2">
+          <div className="rounded-lg border border-white/10 bg-black/50 p-5">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">City Strategy</p>
+            <p className="mt-3 text-lg font-medium text-white">
               {getCityStrategy(neighborhoods)}
             </p>
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="rounded border border-white/10 bg-black/30 p-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Market Health</p>
-                <p className="mt-2 text-2xl font-semibold text-white">
+                <p className="mt-2 text-xl font-medium text-white">
                   {neighborhoods.filter(n => n.status === "rising").length > neighborhoods.length / 2 
                     ? "Strong" 
                     : "Mixed"}
                 </p>
               </div>
-              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className="rounded border border-white/10 bg-black/30 p-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Recommended Action</p>
-                <p className="mt-2 text-2xl font-semibold text-white">
+                <p className="mt-2 text-xl font-medium text-white">
                   {neighborhoods.filter(n => n.investor_opportunity_score >= 80).length > 2 
                     ? "Focus" 
                     : "Monitor"}
@@ -93,18 +93,18 @@ export default async function MapPage({
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/15 bg-white/5 p-6">
-            <p className="text-sm font-medium text-emerald-400">MARKET SNAPSHOT</p>
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+          <div className="rounded-lg border border-white/10 bg-black/50 p-5">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Market Snapshot</p>
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="rounded border border-white/10 bg-black/30 p-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Avg Price</p>
-                <p className="mt-2 text-2xl font-semibold text-white">
+                <p className="mt-2 text-xl font-medium text-white">
                   {formatMoney(getSummaryStats(neighborhoods).avgPrice)}
                 </p>
               </div>
-              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className="rounded border border-white/10 bg-black/30 p-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Top Momentum</p>
-                <p className="mt-2 text-2xl font-semibold text-white">
+                <p className="mt-2 text-xl font-medium text-white">
                   {Math.max(...neighborhoods.map(n => n.momentum_score))}
                 </p>
               </div>
