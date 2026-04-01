@@ -53,7 +53,7 @@ export default async function NeighborhoodPage({
                 Strategic Insight
               </h3>
               <p className="mt-1 text-sm leading-6 text-white/80">
-                {generateNeighborhoodInsight(neighborhood)}
+                {getStrategicSummary(neighborhood)}
               </p>
             </div>
           </div>
