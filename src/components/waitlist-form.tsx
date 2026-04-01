@@ -50,9 +50,9 @@ export function WaitlistForm() {
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/15">
           <FiCheck className="h-6 w-6 text-emerald-400" />
         </div>
-        <h3 className="text-lg font-medium text-white">Early Access Granted</h3>
+        <h3 className="text-lg font-medium text-white">Access Granted</h3>
         <p className="text-sm text-white/80">
-          Welcome to NaextBlock{"'"}s private beta. We{"'"}ll be in touch soon.
+          You're now on the NaextBlock waitlist. We'll notify you when your access is ready.
         </p>
       </div>
     );

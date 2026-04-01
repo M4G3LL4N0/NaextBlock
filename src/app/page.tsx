@@ -13,26 +13,33 @@ export default async function HomePage() {
     <main className="pb-20">
       <Nav />
 
-      <section className="container-wrap pt-20 pb-28">
-        <div className="max-w-4xl">
-          <p className="mb-5 text-sm uppercase tracking-[0.25em] text-neutral-400">
+      <section className="mx-auto max-w-7xl px-6 pt-32 pb-40">
+        <div className="max-w-3xl">
+          <p className="mb-4 text-sm uppercase tracking-[0.2em] text-emerald-400/80">
             Predictive Real Estate Intelligence
           </p>
-          <h1 className="section-title">
-            Data-Driven Insights for Strategic Investors
+          <h1 className="text-5xl font-semibold tracking-tight text-white">
+            See Where Markets Are Moving Next
           </h1>
-          <p className="section-copy mt-6 max-w-2xl">
+          <p className="mt-6 max-w-2xl text-lg text-white/80">
             NaextBlock delivers premium neighborhood-level intelligence to help investors
-            identify emerging opportunities, assess market momentum, and make informed
-            decisions backed by proprietary analytics.
+            identify emerging opportunities before the market fully sees them. Our proprietary
+            analytics surface momentum signals, timing indicators, and strategic insights
+            for discerning investors.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/auth/sign-up" className="btn btn-primary">
-              Get Started
-            </Link>
-            <Link href="/map" className="btn btn-secondary">
+            <Link
+              href="/map"
+              className="rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-black transition hover:opacity-90"
+            >
               Explore Markets
+            </Link>
+            <Link
+              href="#waitlist"
+              className="rounded-xl border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              Request Access
             </Link>
           </div>
         </div>

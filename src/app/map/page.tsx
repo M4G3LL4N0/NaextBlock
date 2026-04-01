@@ -68,7 +68,7 @@ export default async function MapPage({
 
       <section className="mx-auto max-w-7xl px-6 pt-6 pb-12">
         <div className="mb-8 grid gap-5 lg:grid-cols-3">
-          <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Market Overview</p>
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded-lg border border-white/10 bg-black/20 p-3">
@@ -98,7 +98,7 @@ export default async function MapPage({
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-amber-400/80">Strategic Outlook</p>
             <p className="mt-3 text-lg font-medium text-white">
               {getCityStrategy(neighborhoods)}
@@ -119,7 +119,7 @@ export default async function MapPage({
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-sky-400/80">Portfolio Mix</p>
             <div className="mt-3 flex justify-between">
               <div className="flex items-center gap-2">

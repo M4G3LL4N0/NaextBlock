@@ -46,7 +46,7 @@ export default async function NeighborhoodPage({
 
       <div className="mx-auto max-w-7xl px-6 py-8">
         {/* Intelligence Header */}
-        <div className="rounded-lg border border-white/5 bg-white/3 p-5">
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
           <div className="flex items-start justify-between gap-6">
             <div>
               <h1 className="text-4xl font-semibold tracking-tight text-white">
@@ -91,13 +91,13 @@ export default async function NeighborhoodPage({
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="rounded-lg border border-white/5 bg-white/5 p-4">
+            <div className="rounded-lg border border-white/10 bg-black/20 p-4">
               <p className="text-xs font-medium uppercase tracking-wider text-white/60">
                 Market Profile
               </p>
               <p className="mt-2 text-xl font-medium text-white">{marketProfile}</p>
             </div>
-            <div className="rounded-lg border border-white/5 bg-white/5 p-4">
+            <div className="rounded-lg border border-white/10 bg-black/20 p-4">
               <p className="text-xs font-medium uppercase tracking-wider text-white/60">
                 3Y Growth Projection
               </p>
@@ -105,7 +105,7 @@ export default async function NeighborhoodPage({
                 {neighborhood.projected_growth_3y ?? 0}%
               </p>
             </div>
-            <div className="rounded-lg border border-white/5 bg-white/5 p-4">
+            <div className="rounded-lg border border-white/10 bg-black/20 p-4">
               <p className="text-xs font-medium uppercase tracking-wider text-white/60">
                 Strategic Pulse
               </p>
