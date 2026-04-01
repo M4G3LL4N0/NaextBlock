@@ -1,8 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+
+type NaextBlockSupabaseClient = SupabaseClient;
 
 function isValidHttpUrl(value: string | undefined): value is string {
   if (!value) return false;
-
   try {
     const url = new URL(value);
     return url.protocol === "http:" || url.protocol === "https:";
@@ -13,24 +14,22 @@ function isValidHttpUrl(value: string | undefined): value is string {
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const schema = "naextblock" as const;
+const schema = "naextblock";
 
-let cachedClient: unknown = null;
+let client: NaextBlockSupabaseClient | null = null;
 
-export function getSupabaseClient(): any | null {
-  if (cachedClient) {
-    return cachedClient as any;
-  }
+export function getSupabaseClient(): NaextBlockSupabaseClient | null {
+  if (client) return client;
 
   if (!isValidHttpUrl(supabaseUrl) || !supabaseAnonKey) {
     return null;
   }
 
-  cachedClient = createClient(supabaseUrl, supabaseAnonKey, {
+  client = createClient(supabaseUrl, supabaseAnonKey, {
     db: { schema },
-  }) as any;
+  });
 
-  return cachedClient as any;
+  return client;
 }
 
 export function hasValidSupabaseEnv(): boolean {

@@ -145,9 +145,10 @@ export async function getNeighborhoods(): Promise<Neighborhood[]> {
   const { data, error } = await supabase
     .from("neighborhoods")
     .select("*")
-    .order("momentum_score", { ascending: false });
+    .order("momentum_score", { ascending: false })
+    .returns<Neighborhood[]>();
 
-  if (error || !data || data.length === 0) {
+  if (error || !data?.length) {
     return fallbackNeighborhoods;
   }
 
@@ -167,7 +168,8 @@ export async function getNeighborhoodBySlug(
     .from("neighborhoods")
     .select("*")
     .eq("slug", slug)
-    .single();
+    .single()
+    .returns<Neighborhood>();
 
   if (error || !data) {
     return fallbackNeighborhoods.find((item) => item.slug === slug) || null;
