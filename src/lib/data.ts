@@ -1,5 +1,68 @@
 import { getSupabaseClient } from "@/lib/supabase/client";
-import type { Neighborhood } from "@/lib/types";
+import type { Neighborhood, NeighborhoodStatus } from "@/lib/types";
+
+function getOpportunityType(neighborhood: Neighborhood): string {
+  if (neighborhood.investor_opportunity_score >= 80) {
+    return "high conviction";
+  }
+  if (neighborhood.investor_opportunity_score >= 60) {
+    return "growth potential"; 
+  }
+  return "selective";
+}
+
+function getTimingAdvice(neighborhood: Neighborhood): string {
+  if (neighborhood.buyer_timing_score >= 75) {
+    return "strong buying signal";
+  }
+  if (neighborhood.buyer_timing_score >= 50) {
+    return "watch for opportunities";
+  }
+  return "wait for better entry";
+}
+
+function getRiskProfile(neighborhood: Neighborhood): string {
+  if (neighborhood.turnover_risk_score >= 70) {
+    return "higher volatility";
+  }
+  if (neighborhood.generational_hold_score >= 60) {
+    return "stable long-term";
+  }
+  return "moderate risk";
+}
+
+function getStrategicSummary(neighborhood: Neighborhood): string {
+  const opportunity = getOpportunityType(neighborhood);
+  const timing = getTimingAdvice(neighborhood);
+  const risk = getRiskProfile(neighborhood);
+  
+  let statusPhrase = "";
+  switch (neighborhood.status) {
+    case "rising":
+      statusPhrase = "showing strong momentum";
+      break;
+    case "stable":
+      statusPhrase = "with steady fundamentals";
+      break;
+    case "declining":
+      statusPhrase = "facing headwinds";
+      break;
+  }
+
+  return `A ${opportunity} opportunity ${statusPhrase}. ${timing.toUpperCase()}. ${risk.toUpperCase()}.`;
+}
+
+export function getTopOpportunity(neighborhoods: Neighborhood[]): string {
+  if (!neighborhoods.length) return "No neighborhood data available";
+  
+  const top = neighborhoods.reduce((prev, current) => 
+    current.investor_opportunity_score > prev.investor_opportunity_score ? current : prev
+  );
+
+  return `${top.name} presents the strongest investment opportunity ` +
+    `with an investor score of ${top.investor_opportunity_score}. ` +
+    getStrategicSummary(top);
+}
 
 const fallbackNeighborhoods: Neighborhood[] = [
   {
