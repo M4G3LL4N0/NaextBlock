@@ -56,7 +56,7 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
   return (
     <Link
       href={`/neighborhood/${neighborhood.slug}`}
-      className="group relative rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:border-white/20 hover:bg-white/[0.08]"
+      className="group relative rounded-xl border border-white/5 bg-white/3 p-5 transition hover:border-white/10 hover:bg-white/5"
     >
       <button
         className="absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white/60 transition hover:border-white/20 hover:text-white/80 group-hover:bg-white/10"

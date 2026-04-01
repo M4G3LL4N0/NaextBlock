@@ -46,7 +46,7 @@ export default async function NeighborhoodPage({
 
       <div className="mx-auto max-w-7xl px-6 py-8">
         {/* Intelligence Header */}
-        <div className="rounded-xl border border-white/5 bg-gradient-to-br from-black to-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
+        <div className="rounded-lg border border-white/5 bg-white/3 p-5">
           <div className="flex items-start justify-between gap-6">
             <div>
               <h1 className="text-4xl font-semibold tracking-tight text-white">

@@ -32,7 +32,7 @@ export function ScoreBadge({
 
   return (
     <div className={clsx(
-      "rounded-xl border border-white/5 p-4",
+      "rounded-lg border border-white/5 p-3",
       statusColors[status].bg
     )}>
       <div className="flex items-start justify-between gap-2">

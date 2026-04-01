@@ -66,7 +66,7 @@ export default async function MapPage({
     <main>
       <Header />
 
-      <section className="mx-auto max-w-7xl px-6 pt-8 pb-14">
+      <section className="mx-auto max-w-7xl px-6 pt-6 pb-12">
         <div className="mb-8 grid gap-5 lg:grid-cols-3">
           <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Market Overview</p>

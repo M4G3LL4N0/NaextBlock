@@ -14,6 +14,9 @@ body {
   color: var(--foreground);
   min-height: 100vh;
   font-feature-settings: 'ss01' on, 'ss03' on, 'cv05' on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 * {
