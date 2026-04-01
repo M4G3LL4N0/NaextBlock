@@ -28,14 +28,14 @@ function getSummaryStats(neighborhoods: Neighborhood[]) {
   const risingCount = neighborhoods.filter(n => n.status === "rising").length;
   const avgMomentum = neighborhoods.reduce((sum, n) => sum + n.momentum_score, 0) / neighborhoods.length;
   const topInvestorOpp = Math.max(...neighborhoods.map(n => n.investor_opportunity_score));
-  const avgPrice = neighborhoods.reduce((sum, n) => sum + (n.median_home_price || 0), 0) / neighborhoods.length;
+  const avgBuyerTiming = neighborhoods.reduce((sum, n) => sum + n.buyer_timing_score, 0) / neighborhoods.length;
 
   return {
     total: neighborhoods.length,
     risingCount,
     avgMomentum: Math.round(avgMomentum),
     topInvestorOpp,
-    avgPrice
+    avgBuyerTiming: Math.round(avgBuyerTiming)
   };
 }
 
@@ -68,46 +68,58 @@ export default async function MapPage({
 
       <section className="mx-auto max-w-7xl px-6 pt-8 pb-14">
         <div className="mb-8 grid gap-5 lg:grid-cols-3">
-          <div className="rounded-lg border border-white/10 bg-black/50 p-5">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Strategic Outlook</p>
+          <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Market Overview</p>
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Neighborhoods</p>
+                <p className="mt-2 text-xl font-semibold text-white">
+                  {stats.total}
+                </p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Rising</p>
+                <p className="mt-2 text-xl font-semibold text-white">
+                  {stats.risingCount}
+                </p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Momentum</p>
+                <p className="mt-2 text-xl font-semibold text-white">
+                  {stats.avgMomentum}
+                </p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Timing</p>
+                <p className="mt-2 text-xl font-semibold text-white">
+                  {stats.avgBuyerTiming}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-amber-400/80">Strategic Outlook</p>
             <p className="mt-3 text-lg font-medium text-white">
               {getCityStrategy(neighborhoods)}
             </p>
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="rounded border border-white/10 bg-black/30 p-3">
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Top Opportunity</p>
+                <p className="mt-2 text-xl font-semibold text-white">
+                  {stats.topInvestorOpp}
+                </p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Prime Targets</p>
-                <p className="mt-2 text-xl font-medium text-white">
+                <p className="mt-2 text-xl font-semibold text-white">
                   {neighborhoods.filter(n => n.investor_opportunity_score >= 80).length}
                 </p>
               </div>
-              <div className="rounded border border-white/10 bg-black/30 p-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Timing Signal</p>
-                <p className="mt-2 text-xl font-medium text-white">
-                  {neighborhoods.filter(n => n.buyer_timing_score >= 75).length > 2 ? "Buy" : "Watch"}
-                </p>
-              </div>
             </div>
           </div>
 
-          <div className="rounded-lg border border-white/10 bg-black/50 p-5">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-amber-400/80">Market Signals</p>
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="rounded border border-white/10 bg-black/30 p-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Seller Pressure</p>
-                <p className="mt-2 text-xl font-medium text-white">
-                  {Math.round(neighborhoods.reduce((sum, n) => sum + n.seller_intent_score, 0) / neighborhoods.length)}
-                </p>
-              </div>
-              <div className="rounded border border-white/10 bg-black/30 p-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Liquidity Risk</p>
-                <p className="mt-2 text-xl font-medium text-white">
-                  {Math.round(neighborhoods.reduce((sum, n) => sum + n.turnover_risk_score, 0) / neighborhoods.length)}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-lg border border-white/10 bg-black/50 p-5">
+          <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-sky-400/80">Portfolio Mix</p>
             <div className="mt-3 flex justify-between">
               <div className="flex items-center gap-2">
@@ -237,7 +249,7 @@ export default async function MapPage({
         </div>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">Market Grid</h2>
               <p className="text-sm text-white/50">
@@ -248,7 +260,7 @@ export default async function MapPage({
               {filteredNeighborhoods.map((n) => (
                 <div
                   key={n.slug}
-                  className={`rounded-[1.5rem] border p-4 ${
+                  className={`rounded-xl border p-4 backdrop-blur ${
                     n.status === "rising"
                       ? "border-emerald-400/20 bg-emerald-500/10"
                       : n.status === "stable"

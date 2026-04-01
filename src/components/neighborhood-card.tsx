@@ -56,7 +56,7 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
   return (
     <Link
       href={`/neighborhood/${neighborhood.slug}`}
-      className="group relative rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:border-white/20 hover:bg-white/[0.08]"
+      className="group relative rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:border-white/20 hover:bg-white/[0.08]"
     >
       <button
         className="absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white/60 transition hover:border-white/20 hover:text-white/80"
@@ -110,6 +110,16 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
           </p>
         </div>
         <div className="flex flex-col gap-1">
+          <p className="text-white/45">Momentum</p>
+          <p className="text-xl font-semibold text-white">
+            {neighborhood.momentum_score}
+          </p>
+          <p className="text-xs uppercase tracking-[0.1em] text-white/50">
+            {neighborhood.status === "rising" ? "Accelerating" :
+             neighborhood.status === "stable" ? "Steady" : "Declining"}
+          </p>
+        </div>
+        <div className="flex flex-col gap-1">
           <p className="text-white/45">Timing</p>
           <p className="text-xl font-semibold text-white">
             {neighborhood.buyer_timing_score}
@@ -117,16 +127,6 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
           <p className="text-xs uppercase tracking-[0.1em] text-white/50">
             {neighborhood.buyer_timing_score >= 75 ? "Buy Now" :
              neighborhood.buyer_timing_score >= 50 ? "Monitor" : "Wait"}
-          </p>
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="text-white/45">Sellers</p>
-          <p className="text-xl font-semibold text-white">
-            {neighborhood.seller_intent_score}
-          </p>
-          <p className="text-xs uppercase tracking-[0.1em] text-white/50">
-            {neighborhood.seller_intent_score >= 60 ? "Motivated" : 
-             neighborhood.seller_intent_score >= 40 ? "Balanced" : "Reluctant"}
           </p>
         </div>
       </div>
