@@ -148,18 +148,26 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="privacy" className="container-wrap py-14">
-        <div className="card grid gap-8 p-8 lg:grid-cols-2">
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-neutral-400">Privacy first</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight">
-              Your loved one’s likeness should never belong to a platform.
+      <section className="container-wrap py-20">
+        <div className="card grid gap-10 p-8 xl:grid-cols-2">
+          <div className="space-y-5">
+            <h2 className="text-3xl font-semibold tracking-tight">
+              Join NaextBlock{"'"}s Beta Program
             </h2>
+            <div className="space-y-4 text-neutral-300">
+              <p>
+                Apply for early access to our predictive real estate intelligence platform. 
+                Spaces are limited to serious investors only.
+              </p>
+              <p>
+                Beta members receive 3 months of free access and direct input into product development.
+              </p>
+            </div>
           </div>
-          <div className="space-y-4 text-neutral-300">
-            <p>ForeverLuvd is built on the principle that memory is sacred.</p>
-            <p>You own the data. Your family controls the access. Encryption and protected storage are defaults, not add-ons.</p>
-            <p>No resale. No hidden training. No exploiting grief.</p>
+          <div className="relative">
+            <div className="rounded-2xl border border-white/5 bg-gradient-to-b from-white/5 to-transparent p-6 backdrop-blur sm:p-10">
+              <WaitlistForm />
+            </div>
           </div>
         </div>
       </section>
