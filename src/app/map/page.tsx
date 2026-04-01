@@ -67,47 +67,74 @@ export default async function MapPage({
       <Header />
 
       <section className="mx-auto max-w-7xl px-6 pt-8 pb-14">
-        <div className="mb-8 grid gap-5 lg:grid-cols-2">
+        <div className="mb-8 grid gap-5 lg:grid-cols-3">
           <div className="rounded-lg border border-white/10 bg-black/50 p-5">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">City Strategy</p>
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Strategic Outlook</p>
             <p className="mt-3 text-lg font-medium text-white">
-              {getCityStrategy(neighborhoods)}
+              {neighborhoods.filter(n => n.status === "rising").length} of {neighborhoods.length} neighborhoods accelerating
             </p>
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded border border-white/10 bg-black/30 p-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Market Health</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Prime Targets</p>
                 <p className="mt-2 text-xl font-medium text-white">
-                  {neighborhoods.filter(n => n.status === "rising").length > neighborhoods.length / 2 
-                    ? "Strong" 
-                    : "Mixed"}
+                  {neighborhoods.filter(n => n.investor_opportunity_score >= 80).length}
                 </p>
               </div>
               <div className="rounded border border-white/10 bg-black/30 p-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Recommended Action</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Timing Signal</p>
                 <p className="mt-2 text-xl font-medium text-white">
-                  {neighborhoods.filter(n => n.investor_opportunity_score >= 80).length > 2 
-                    ? "Focus" 
-                    : "Monitor"}
+                  {neighborhoods.filter(n => n.buyer_timing_score >= 75).length > 2 ? "Buy" : "Watch"}
                 </p>
               </div>
             </div>
           </div>
 
           <div className="rounded-lg border border-white/10 bg-black/50 p-5">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Market Snapshot</p>
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-amber-400/80">Market Signals</p>
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded border border-white/10 bg-black/30 p-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Avg Price</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Seller Pressure</p>
                 <p className="mt-2 text-xl font-medium text-white">
-                  {formatMoney(getSummaryStats(neighborhoods).avgPrice)}
+                  {Math.round(neighborhoods.reduce((sum, n) => sum + n.seller_intent_score, 0) / neighborhoods.length)}
                 </p>
               </div>
               <div className="rounded border border-white/10 bg-black/30 p-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Top Momentum</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Liquidity Risk</p>
                 <p className="mt-2 text-xl font-medium text-white">
-                  {Math.max(...neighborhoods.map(n => n.momentum_score))}
+                  {Math.round(neighborhoods.reduce((sum, n) => sum + n.turnover_risk_score, 0) / neighborhoods.length)}
                 </p>
               </div>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-white/10 bg-black/50 p-5">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-sky-400/80">Portfolio Mix</p>
+            <div className="mt-3 flex justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full bg-emerald-400" />
+                <span className="text-sm text-white/80">Growth</span>
+              </div>
+              <span className="text-sm font-medium text-white">
+                {Math.round((neighborhoods.filter(n => n.status === "rising").length / neighborhoods.length) * 100)}%
+              </span>
+            </div>
+            <div className="mt-2 flex justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full bg-amber-400" />
+                <span className="text-sm text-white/80">Core</span>
+              </div>
+              <span className="text-sm font-medium text-white">
+                {Math.round((neighborhoods.filter(n => n.status === "stable").length / neighborhoods.length) * 100)}%
+              </span>
+            </div>
+            <div className="mt-2 flex justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full bg-sky-400" />
+                <span className="text-sm text-white/80">Value</span>
+              </div>
+              <span className="text-sm font-medium text-white">
+                {Math.round((neighborhoods.filter(n => n.status === "declining").length / neighborhoods.length) * 100)}%
+              </span>
             </div>
           </div>
         </div>

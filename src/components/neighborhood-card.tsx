@@ -70,36 +70,53 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
-        <div>
-          <p className="text-white/45">Momentum</p>
-          <p className="mt-1 text-xl font-semibold text-white">
-            {neighborhood.momentum_score}
-          </p>
-        </div>
-        <div>
-          <p className="text-white/45">Projected Growth</p>
-          <p className="mt-1 text-xl font-semibold text-white">
-            {neighborhood.projected_growth_3y ?? 0}%
-          </p>
-        </div>
-        <div>
-          <p className="text-white/45">Median Price</p>
-          <p className="mt-1 text-base font-semibold text-white">
-            {formatMoney(neighborhood.median_home_price)}
-          </p>
-        </div>
-        <div>
-          <p className="text-white/45">Investor Score</p>
-          <p className="mt-1 text-xl font-semibold text-white">
+      <div className="mt-6 grid grid-cols-3 gap-3 text-sm">
+        <div className="flex flex-col gap-1">
+          <p className="text-white/45">Opportunity</p>
+          <p className="text-xl font-semibold text-white">
             {neighborhood.investor_opportunity_score}
+          </p>
+          <p className="text-xs uppercase tracking-[0.1em] text-white/50">
+            {neighborhood.investor_opportunity_score >= 80 ? "High Conviction" : 
+             neighborhood.investor_opportunity_score >= 60 ? "Growth" : "Selective"}
+          </p>
+        </div>
+        <div className="flex flex-col gap-1">
+          <p className="text-white/45">Timing</p>
+          <p className="text-xl font-semibold text-white">
+            {neighborhood.buyer_timing_score}
+          </p>
+          <p className="text-xs uppercase tracking-[0.1em] text-white/50">
+            {neighborhood.buyer_timing_score >= 75 ? "Buy Now" :
+             neighborhood.buyer_timing_score >= 50 ? "Monitor" : "Wait"}
+          </p>
+        </div>
+        <div className="flex flex-col gap-1">
+          <p className="text-white/45">Sellers</p>
+          <p className="text-xl font-semibold text-white">
+            {neighborhood.seller_intent_score}
+          </p>
+          <p className="text-xs uppercase tracking-[0.1em] text-white/50">
+            {neighborhood.seller_intent_score >= 60 ? "Motivated" : 
+             neighborhood.seller_intent_score >= 40 ? "Balanced" : "Reluctant"}
           </p>
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-between">
+      <div className="mt-4 text-xs leading-5 text-white/70">
+        {neighborhood.investor_opportunity_score >= 80 && (
+          <p>Prime target with strong fundamentals and upside potential.</p>
+        )}
+        {neighborhood.investor_opportunity_score >= 60 && neighborhood.investor_opportunity_score < 80 && (
+          <p>Growth opportunity with balanced risk/reward.</p>
+        )}
+        {neighborhood.investor_opportunity_score < 60 && (
+          <p>Special situations or long-term hold potential.</p>
+        )}
+      </div>
+      <div className="mt-4 flex items-center justify-between">
         <span className="text-sm font-medium text-white/80 transition group-hover:text-white">
-          View Market Analysis →
+          View Analysis →
         </span>
         {neighborhood.tracking_count && neighborhood.tracking_count > 0 && (
           <span className="text-xs text-white/40">
