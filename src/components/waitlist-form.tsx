@@ -1,18 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { FiCheck, FiLoader } from "react-icons/fi";
 
 export function WaitlistForm() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [error, setError] = useState("");
+
+  const isLoading = status === "submitting";
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("Submitting...");
+    setStatus("submitting");
+    setError("");
 
-    const response = await fetch("/api/waitlist", {
+    try {
+      const response = await fetch("/api/waitlist", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,27 +26,49 @@ export function WaitlistForm() {
       body: JSON.stringify({ full_name: fullName, email, city }),
     });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      setStatus(data.error || "Something went wrong.");
-      return;
+      if (!response.ok) {
+        setError(data.error || "Something went wrong. Please try again.");
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+    } catch (err) {
+      setError("Failed to connect. Please check your connection.");
+      setStatus("error");
     }
-
-    setStatus("You're in.");
     setFullName("");
     setEmail("");
     setCity("");
   }
 
+  if (status === "success") {
+    return (
+      <div className="space-y-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-6 text-center">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/15">
+          <FiCheck className="h-6 w-6 text-emerald-400" />
+        </div>
+        <h3 className="text-lg font-medium text-white">Early Access Granted</h3>
+        <p className="text-sm text-white/80">
+          Welcome to NaextBlock{"'"}s private beta. We{"'"}ll be in touch soon.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <form onSubmit={onSubmit} className="space-y-3">
-      <input
-        value={fullName}
-        onChange={(e) => setFullName(e.target.value)}
-        placeholder="Full name"
-        className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none placeholder:text-white/35"
-      />
+    <form onSubmit={onSubmit} className="space-y-3" noValidate>
+      <div>
+        <input
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          placeholder="John Smith"
+          className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all placeholder:text-white/35 focus:border-white/20 focus:ring-1 focus:ring-white/5"
+          disabled={isLoading}
+        />
+      </div>
       <input
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +89,12 @@ export function WaitlistForm() {
       >
         Join the waitlist
       </button>
-      <p className="text-sm text-white/60">{status}</p>
+      <div className="pt-2">
+        <p className="text-sm text-amber-400">{error}</p>
+        <p className="text-xs text-white/45">
+          By joining, you agree to our terms and privacy policy.
+        </p>
+      </div>
     </form>
   );
 }
