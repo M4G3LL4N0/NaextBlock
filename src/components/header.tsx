@@ -1,32 +1,42 @@
 import Link from "next/link";
-import { Building2 } from "lucide-react";
+import { Home, Map, LineChart } from "lucide-react";
 
 export function Header() {
   return (
-    <header className="border-b border-white/10 bg-black/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-black/90 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-            <Building2 className="h-4 w-4 text-white" />
-          </div>
-          <div>
-            <p className="text-sm font-medium tracking-[0.2em] text-white">
-              NAEXTBLOCK
-            </p>
-            <p className="mt-0.5 text-[0.7rem] tracking-[0.1em] text-white/50">
-              PREDICTIVE REAL ESTATE INTELLIGENCE
-            </p>
-          </div>
+          <p className="text-lg font-medium tracking-tight text-white">
+            Naext<span className="font-light text-emerald-400">Block</span>
+          </p>
         </Link>
 
-        <nav className="flex items-center gap-5 text-[0.8rem] font-medium tracking-[0.1em] text-white/80">
-          <Link href="/map" className="transition hover:text-white">
-            NaextMap
+        <nav className="hidden items-center gap-1 md:flex">
+          <Link
+            href="/"
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+          >
+            <Home className="h-4 w-4" />
+            Dashboard
           </Link>
-          <a href="#waitlist" className="transition hover:text-white">
-            Join Waitlist
-          </a>
+          <Link
+            href="/map"
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+          >
+            <Map className="h-4 w-4" />
+            Market Pulse
+          </Link>
         </nav>
+
+        <div className="flex items-center gap-4">
+          <LineChart className="h-5 w-5 text-emerald-400" />
+          <Link
+            href="#waitlist"
+            className="rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 px-4 py-2 text-xs font-medium text-black transition hover:shadow-lg hover:shadow-emerald-400/10"
+          >
+            Request Access
+          </Link>
+        </div>
       </div>
     </header>
   );

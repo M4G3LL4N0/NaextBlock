@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ForeverLuvd",
-  description: "Preserve the voice, memories, and essence of the people you love.",
+  title: "NaextBlock | Predictive Real Estate Intelligence",
+  description: "Neighborhood-level market momentum intelligence for discerning investors.",
 };
 
 export default function RootLayout({
@@ -12,8 +12,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className="bg-[#050505] text-white">
+      <body className="min-h-screen font-sans antialiased">
+        <div className="mx-auto max-w-[1920px]">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

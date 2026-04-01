@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Neighborhood } from "@/lib/types";
+import clsx from "clsx";
 
 function formatMoney(value: number | null) {
   if (!value) return "—";
@@ -10,7 +11,34 @@ function formatMoney(value: number | null) {
   }).format(value);
 }
 
+function getInvestmentLabel(score: number) {
+  return score >= 80 
+    ? "High Conviction" 
+    : score >= 60 
+      ? "Growth" 
+      : "Selective";
+}
+
+function getTimingLabel(score: number) {
+  return score >= 75
+    ? "Buy Now"
+    : score >= 50
+      ? "Monitor"
+      : "Wait";
+}
+
+function getSellerLabel(score: number) {
+  return score >= 60
+    ? "Motivated"
+    : score >= 40
+      ? "Balanced"
+      : "Reluctant";
+}
+
 export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood }) {
+  const investmentLabel = getInvestmentLabel(neighborhood.investor_opportunity_score);
+  const timingLabel = getTimingLabel(neighborhood.buyer_timing_score);
+  const sellerLabel = getSellerLabel(neighborhood.seller_intent_score);
   const trendLabel =
     neighborhood.status === "rising"
       ? "Rising"
