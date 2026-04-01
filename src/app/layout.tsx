@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NaextBlock",
-  description:
-    "NaextBlock predicts where real estate markets are going before the market knows.",
+  title: "ForeverLuvd",
+  description: "Preserve the voice, memories, and essence of the people you love.",
 };
 
 export default function RootLayout({
@@ -15,10 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#050505] text-white antialiased">
-        {children}
-        <Analytics />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
