@@ -75,11 +75,21 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
   return (
     <Link
       href={`/neighborhood/${neighborhood.slug}`}
-      className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-6 transition hover:border-white/20 hover:bg-white/10"
+      className={clsx(
+        "group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-6 transition hover:border-white/20 hover:bg-white/10",
+        neighborhood.investor_opportunity_score >= 80 
+          ? "shadow-[0_0_12px_0_rgba(110,231,183,0.1)] hover:shadow-[0_0_16px_0_rgba(110,231,183,0.15)]"
+          : ""
+      )}
     >
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/5 to-transparent opacity-0 transition group-hover:opacity-100" />
       <button
-        className="absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white/60 transition hover:border-white/20 hover:bg-white/10 hover:text-white/80 group-hover:bg-white/10"
+        className={clsx(
+          "absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition",
+          neighborhood.is_tracked 
+            ? "bg-gradient-to-b from-emerald-400/10 to-emerald-500/10 border-emerald-400/30 text-emerald-400 hover:text-emerald-300"
+            : "border border-white/10 bg-black/50 text-white/60 hover:border-white/20 hover:bg-white/10 hover:text-white/80 group-hover:bg-white/10"
+        )}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -111,7 +121,11 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <span className={`h-3 w-3 rounded-full ${trendColor}`} />
+          <span className={`relative h-3 w-3 rounded-full ${selectedColor}`}>
+            {neighborhood.status === "rising" && (
+              <span className="absolute inset-0 animate-pulse rounded-full bg-emerald-400/30" />
+            )}
+          </span>
           <span className="text-xs uppercase tracking-[0.2em] text-white/60">
             {trendLabel}
           </span>
@@ -124,9 +138,17 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
           <p className="text-xl font-semibold text-white">
             {neighborhood.investor_opportunity_score}
           </p>
-          <div className="h-1.5 w-full rounded-full bg-white/5">
+          <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+            <div className="absolute h-full w-full bg-gradient-to-r from-white/10 to-white/20 opacity-10" />
             <div 
-              className="h-1.5 rounded-full bg-emerald-400" 
+              className={clsx(
+                "absolute h-full rounded-full bg-gradient-to-r",
+                neighborhood.investor_opportunity_score >= 85
+                  ? "from-emerald-400 via-emerald-400 to-emerald-500"
+                  : neighborhood.investor_opportunity_score >= 70
+                    ? "from-amber-300 to-amber-400" 
+                    : "from-sky-300 to-sky-400"
+              )}
               style={{ width: `${neighborhood.investor_opportunity_score}%` }}
             />
           </div>
