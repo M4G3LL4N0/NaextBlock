@@ -10,6 +10,7 @@ export function Header() {
           <p className="text-lg font-medium tracking-tight text-white">
             <span className="font-medium">Naext</span>
             <span className="font-light text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-emerald-500">Block</span>
+            <span className="ml-1.5 text-xs font-medium tracking-wider text-white/40">BETA</span>
           </p>
         </Link>
 

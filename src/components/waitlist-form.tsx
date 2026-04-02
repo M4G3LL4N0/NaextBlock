@@ -50,12 +50,15 @@ export function WaitlistForm() {
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-500/10">
           <FiCheck className="h-6 w-6 text-emerald-400" />
         </div>
-        <h3 className="text-lg font-medium text-white">Access Granted</h3>
+        <h3 className="text-lg font-medium text-white">Access Secured</h3>
         <p className="text-sm text-white/80">
           You're now on the NaextBlock waitlist. We'll notify you when your access is ready.
         </p>
         <p className="text-xs text-white/50">
           Early access includes 3 months of premium intelligence at no cost.
+        </p>
+        <p className="text-xs text-white/50">
+          Spaces are limited to serious investors only.
         </p>
       </div>
     );

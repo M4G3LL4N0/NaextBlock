@@ -88,6 +88,9 @@ export default async function MapPage({
         <div className="mb-8 grid gap-5 lg:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-400/80">Market Pulse</p>
+            <p className="mt-3 text-lg font-medium text-white">
+              {getMarketPhase(neighborhoods)}
+            </p>
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded-lg border border-white/10 bg-black/20 p-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Neighborhoods</p>
