@@ -16,15 +16,15 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-6 pt-32 pb-40">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm uppercase tracking-[0.2em] text-emerald-400/80">
-            Forward-Looking Market Intelligence
+            Neighborhood Momentum Intelligence
           </p>
           <h1 className="text-5xl font-semibold tracking-tight text-white">
-            Predictive Insights for Strategic Investors
+            See Where Markets Are Moving Next
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-white/80">
-            NaextBlock delivers proprietary neighborhood-level analytics to identify emerging opportunities, 
-            assess market timing, and optimize capital deployment. Our models surface momentum signals 
-            and strategic insights before they're priced in.
+            NaextBlock identifies emerging neighborhood opportunities before they're priced in. 
+            Our proprietary models analyze momentum, timing, and market inefficiencies to give 
+            investors a decisive edge in capital allocation.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
