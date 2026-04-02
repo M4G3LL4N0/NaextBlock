@@ -96,7 +96,11 @@ export function WaitlistForm() {
         Join the waitlist
       </button>
       <div className="pt-2">
-        <p className="text-sm text-amber-400">{error}</p>
+        {error && (
+          <div className="mb-2 rounded-lg border border-amber-400/20 bg-amber-400/10 p-3 text-sm text-amber-400">
+            {error}
+          </div>
+        )}
         <p className="text-xs text-white/45">
           By joining, you agree to our terms and privacy policy.
         </p>

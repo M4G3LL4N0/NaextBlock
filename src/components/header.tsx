@@ -17,14 +17,14 @@ export function Header() {
         <nav className="hidden items-center gap-0.5 md:flex">
           <Link
             href="/"
-            className="flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+            className="flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/5 hover:text-white data-[active=true]:bg-white/10 data-[active=true]:text-white"
           >
             <Home className="h-3.5 w-3.5" />
             Dashboard
           </Link>
           <Link
             href="/map"
-            className="flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+            className="flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/5 hover:text-white data-[active=true]:bg-white/10 data-[active=true]:text-white"
           >
             <Map className="h-3.5 w-3.5" />
             Market Intelligence

@@ -79,7 +79,7 @@ export function NeighborhoodCard({ neighborhood }: { neighborhood: Neighborhood 
     >
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/5 to-transparent opacity-0 transition group-hover:opacity-100" />
       <button
-        className="absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white/60 transition hover:border-white/20 hover:text-white/80 group-hover:bg-white/10"
+        className="absolute right-6 top-6 z-10 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white/60 transition hover:border-white/20 hover:bg-white/10 hover:text-white/80 group-hover:bg-white/10"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
