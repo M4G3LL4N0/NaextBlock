@@ -153,7 +153,44 @@ export default async function HomePage() {
 
       <section className="container-wrap py-14">
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {features.map((feature) => {
+          {[
+            {
+              title: "Market Momentum",
+              copy: "Track neighborhood momentum indicators that predict price movements 12-24 months out.",
+              icon: () => (
+                <svg viewBox="0 0 24 24" className="h-6 w-6">
+                  <path
+                    fill="currentColor"
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+              ),
+            },
+            {
+              title: "Investment Scoring",
+              copy: "Objective scoring system evaluates timing, opportunity, and risk factors.",
+              icon: () => (
+                <svg viewBox="0 0 24 24" className="h-6 w-6">
+                  <path
+                    fill="currentColor"
+                    d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"
+                  />
+                </svg>
+              ),
+            },
+            {
+              title: "Strategic Insights", 
+              copy: "Customized investment recommendations based on your goals and risk profile.",
+              icon: () => (
+                <svg viewBox="0 0 24 24" className="h-6 w-6">
+                  <path
+                    fill="currentColor"
+                    d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"
+                  />
+                </svg>
+              ),
+            },
+          ].map((feature) => {
             const Icon = feature.icon;
             return (
               <div key={feature.title} className="card p-6">
