@@ -13,7 +13,18 @@ function formatMoney(value: number | null) {
   }).format(value);
 }
 
-function getMarketProfile(neighborhood: Neighborhood) {
+function getMarketProfile(neighborhood: Neighborhood): string {
+  const statusColor = {
+    rising: "bg-emerald-400",
+    stable: "bg-amber-400",
+    declining: "bg-sky-400"
+  }[neighborhood.status];
+  
+  const statusLabel = {
+    rising: "Rising Momentum",
+    stable: "Stable Market",
+    declining: "Declining Market"
+  }[neighborhood.status];
   if (neighborhood.generational_hold_score > 70) {
     return "Scarcity Market";
   }
@@ -23,7 +34,10 @@ function getMarketProfile(neighborhood: Neighborhood) {
   if (neighborhood.status === "stable") {
     return "Stable Long-Hold Zone";
   }
-  return "Mixed/Conditional Opportunity";
+  if (neighborhood.status === "rising") {
+    return "Momentum Opportunity";
+  }
+  return "Conditional Opportunity";
 }
 
 export default async function NeighborhoodPage({
