@@ -1,5 +1,6 @@
 import Link from "next/link";
-import Nav from "@/components/Nav";
+import { Header } from "@/components/header";
+import { WaitlistForm } from "@/components/waitlist-form";
 import { NeighborhoodCard } from "@/components/neighborhood-card";
 import { getNeighborhoods } from "@/lib/data";
 
@@ -11,7 +12,7 @@ export default async function HomePage() {
 
   return (
     <main className="pb-20">
-      <Nav />
+      <Header />
 
       <section className="mx-auto max-w-7xl px-6 pt-32 pb-40">
         <div className="max-w-3xl">
