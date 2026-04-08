@@ -131,20 +131,20 @@ export default async function HomePage() {
         <div className="mb-10 max-w-2xl">
           <h2 className="text-3xl font-semibold tracking-tight">How it works</h2>
           <p className="section-copy mt-4">
-            Start with preservation first. Build trust first. Then expand into voice, legacy,
-            and AI interaction later.
+            Identify emerging opportunities through predictive analytics, capitalize on market momentum,
+            and optimize your investment strategy with real-time neighborhood intelligence.
           </p>
         </div>
 
         <div className="grid gap-5 md:grid-cols-3">
           {[
-            ["Create a loved one", "Start a private profile for someone important in your life."],
-            ["Upload memories", "Add photos, videos, audio, stories, and written notes."],
-            ["Build their timeline", "Organize the moments that define who they are and what they meant to you."]
+            ["Market Analysis", "Our models analyze neighborhood momentum and market dynamics to surface high-potential opportunities."],
+            ["Investment Scoring", "Proprietary scoring system evaluates investor opportunity, timing, and risk factors."],
+            ["Strategic Insights", "Get actionable recommendations tailored to your investment profile and goals."]
           ].map(([title, copy]) => (
-            <div key={title} className="card p-6">
-              <h3 className="text-xl font-semibold">{title}</h3>
-              <p className="mt-3 text-neutral-400">{copy}</p>
+            <div key={title} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <h3 className="text-xl font-semibold text-white">{title}</h3>
+              <p className="mt-3 text-white/80">{copy}</p>
             </div>
           ))}
         </div>
