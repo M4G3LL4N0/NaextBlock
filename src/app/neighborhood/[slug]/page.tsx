@@ -89,23 +89,11 @@ export default async function NeighborhoodPage({
                   </p>
                 )}
               </div>
-              <button className="flex items-center justify-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-400/20">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-4 w-4"
-                >
-                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                </svg>
-                Track Neighborhood
-              </button>
+              <TrackButton 
+                neighborhoodId={neighborhood.id}
+                isTracked={neighborhood.is_tracked}
+                trackingCount={neighborhood.tracking_count}
+              />
             </div>
           </div>
 
