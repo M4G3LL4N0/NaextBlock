@@ -4,6 +4,8 @@ import { ScoreBadge } from "@/components/score-badge";
 import { getNeighborhoodBySlug } from "@/lib/data";
 import { generateNeighborhoodInsight } from "@/lib/insights";
 
+import { Neighborhood } from '@/lib/types'
+
 function formatMoney(value: number | null) {
   if (!value) return "—";
   return new Intl.NumberFormat("en-US", {
@@ -64,7 +66,13 @@ export default async function NeighborhoodPage({
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <span className={`h-3 w-3 rounded-full ${statusColor}`} />
+                <span className={`h-3 w-3 rounded-full ${
+                  {
+                    rising: "bg-emerald-400",
+                    stable: "bg-amber-400", 
+                    declining: "bg-sky-400"
+                  }[neighborhood.status]
+                }`} />
                 <span className="text-sm font-medium uppercase tracking-wider text-white/60">
                   {statusLabel}
                 </span>
